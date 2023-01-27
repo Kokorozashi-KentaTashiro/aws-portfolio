@@ -1,0 +1,37 @@
+/* 共通の値を変数定義 */
+:root {
+    /* --main-font-color: ??? */
+    --primary-color: #377A7A;
+    --main-bg-color: #F7F5F2;
+    --point-color: #D76550;
+    --black-color: #222222;
+
+    /* containerの高さ */
+    --container-xs-height: calc(100vh - 56px - 56px);
+    --container-md-height: calc(100vh - 68.5px - 68.5px);
+  
+    /* ブロック要素にあてる基本の角の丸さの値 */
+    --default-border-radius: 10px;
+  
+    /* モーダルの角の丸さの値 */
+    --mordal-border-radius: 50px;
+  
+    /* ブロック要素にあてる基本の影の値 */
+    --default-box-shadow: 0 0 15px 1px #ddd;
+  
+    /* ラベルの色 */
+    --default-label-color: #828282;
+  
+    /* 社員詳細/編集用 */
+    --profile-label-size-pc: 20px;
+    --profile-label-size-sp: 16px;
+    --profile-txt-size-pc: 28px;
+    --profile-txt-size-sp: 18px;
+    --profile-txtarea-size-pc: 20px;
+    --profile-txtarea-size-sp: 18px;
+    --profile-btn-font-size-pc: 20px;
+    --profile-btn-font-size-sp: 14px;
+    --profile-sml-font-size-pc: 14px;
+    --profile-sml-font-size-sp: 10px;
+  }
+  

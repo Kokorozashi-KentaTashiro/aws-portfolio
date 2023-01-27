@@ -1,6 +1,12 @@
 React,Redux,TypeScriptのアプリケーションを作成  
 > npx create-react-app . --template redux-typescript  
 
-Tailwind css のインストール  
-> https://qiita.com/y_kato_eng/items/439dae65ba13d050c91e  
-> ↑の手順を参考に  
+ルーティングの導入（react-router-dom）  
+> https://reffect.co.jp/react/react-router-6  
+
+Material UIの導入  
+> https://ralacode.com/blog/post/react-material-ui/  
+> https://qiita.com/tag1216/items/2935c9979b857bb7701f  
+
+Cognito ログインフォーム実装  
+> https://dev.classmethod.jp/articles/react-cognito-signin/  
