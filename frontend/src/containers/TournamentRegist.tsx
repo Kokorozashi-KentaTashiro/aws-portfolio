@@ -9,7 +9,7 @@ import Layout from "components/Layout";
 
 import { CommonContainer, CommonButton } from "common/commonMaterial";
 import { TornamentRegistInfo } from "ducks/tournamentRegist/type";
-import { selectTournamentRegistInfo, setTitle, setEventDate, setPlace, setLimitDate } from "ducks/tournamentRegist/slice";
+import { selectTournamentRegistInfo, setTitle, setEventDate, setPlace, setApplicationStartDate, setApplicationEndDate } from "ducks/tournamentRegist/slice";
 
 const TournamentRegist: FC = () => {
   // 変数
@@ -26,12 +26,21 @@ const TournamentRegist: FC = () => {
     }
   };
 
-  const changeLimitDate = (newValue: Dayjs | null) => {
+  const changeApplicationStartDate = (newValue: Dayjs | null) => {
     if (newValue) {
       const newValueStr = newValue.format('YYYY-MM-DD');
-      dispatch(setLimitDate(newValueStr));
+      dispatch(setApplicationStartDate(newValueStr));
     } else {
-      dispatch(setLimitDate(""));
+      dispatch(setApplicationStartDate(""));
+    }
+  };
+
+  const changeApplicationEndDate = (newValue: Dayjs | null) => {
+    if (newValue) {
+      const newValueStr = newValue.format('YYYY-MM-DD');
+      dispatch(setApplicationEndDate(newValueStr));
+    } else {
+      dispatch(setApplicationEndDate(""));
     }
   };
 
@@ -54,7 +63,7 @@ const TournamentRegist: FC = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <TextField id="tournament-title" label="大会名" variant="standard" value={tournamentRegistInfo.title} onChange={changeTitleVal}/>
             <DesktopDatePicker
-              label="開催日時"
+              label="開催日"
               inputFormat="YYYY/MM/DD"
               value={dayjs(tournamentRegistInfo.eventDate)}
               onChange={changeEventDate}
@@ -62,10 +71,17 @@ const TournamentRegist: FC = () => {
             />
             <TextField id="tournament-place" label="開催場所" variant="standard" value={tournamentRegistInfo.place} onChange={changePlaceVal}/>
             <DesktopDatePicker
-              label="申込期限"
+              label="申込開始日"
               inputFormat="YYYY/MM/DD"
-              value={dayjs(tournamentRegistInfo.limitDate)}
-              onChange={changeLimitDate}
+              value={dayjs(tournamentRegistInfo.applicationStartDate)}
+              onChange={changeApplicationStartDate}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <DesktopDatePicker
+              label="申込終了日"
+              inputFormat="YYYY/MM/DD"
+              value={dayjs(tournamentRegistInfo.applicationEndDate)}
+              onChange={changeApplicationEndDate}
               renderInput={(params) => <TextField {...params} />}
             />
             <CommonButton variant="contained" onClick={onClickConfirm}>

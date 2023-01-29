@@ -39,12 +39,21 @@ export const tournamentRegistSlice = createSlice({
                 },
             };
         },
-        setLimitDate(state: TournamentRegistState, action) {
+        setApplicationStartDate(state: TournamentRegistState, action) {
             return {
                 ...state,
                 tournamentRegistInfo: {
                     ...state.tournamentRegistInfo,
-                    limitDate: action.payload,
+                    applicationStartDate: action.payload,
+                },
+            };
+        },
+        setApplicationEndDate(state: TournamentRegistState, action) {
+            return {
+                ...state,
+                tournamentRegistInfo: {
+                    ...state.tournamentRegistInfo,
+                    applicationEndDate: action.payload,
                 },
             };
         },
@@ -57,7 +66,8 @@ export const {
     setTitle,
     setEventDate,
     setPlace,
-    setLimitDate,
+    setApplicationStartDate,
+    setApplicationEndDate,
 } = tournamentRegistSlice.actions;
 export const selectTournamentRegistInfo = (state: RootState) => state.tournamentRegist.tournamentRegistInfo;
 export default tournamentRegistSlice.reducer;

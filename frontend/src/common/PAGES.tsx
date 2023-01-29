@@ -3,6 +3,8 @@ import { ReactNode } from 'react';
 import Home from 'containers/Home';
 import Tournaments from 'containers/Tournaments';
 import TournamentRegist from 'containers/TournamentRegist';
+import TournamentDetail from 'containers/TournamentDetail';
+import TournamentApplication from 'containers/TournamentApplication';
 import Other from 'containers/Other';
 
 // 型定義
@@ -37,6 +39,20 @@ export const TOURNAMNT_REGIST_INFO: PageInfo = {
     VIEW: false,
 };
 
+export const TOURNAMNT_DETAIL_INFO: PageInfo = {
+    CONTEXT: '大会要項',
+    URL: '/tournament-detail',
+    ELEMENT: <TournamentDetail />,
+    VIEW: false,
+};
+
+export const TOURNAMNT_APPLICATION_INFO: PageInfo = {
+    CONTEXT: '大会応募',
+    URL: '/tournament-application',
+    ELEMENT: <TournamentApplication />,
+    VIEW: false,
+};
+
 export const OTHER_INFO: PageInfo = {
     CONTEXT: 'その他',
     URL: '/other',
@@ -49,5 +65,7 @@ export const PAGEINFOS: PageInfo[] = [
     HOME_INFO,
     TOURNAMNTS_INFO,
     TOURNAMNT_REGIST_INFO,
+    TOURNAMNT_DETAIL_INFO,
+    TOURNAMNT_APPLICATION_INFO,
     OTHER_INFO,
 ];

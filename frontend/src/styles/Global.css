@@ -1,10 +1,11 @@
 /* 共通の値を変数定義 */
 :root {
-    /* --main-font-color: ??? */
     --primary-color: #377A7A;
     --main-bg-color: #F7F5F2;
     --point-color: #D76550;
     --black-color: #222222;
+    --table-head-bg-color: #222222;
+    --table-head-font-color: #F7F5F2;
 
     /* containerの高さ */
     --container-xs-height: calc(100vh - 56px - 56px);

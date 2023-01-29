@@ -7,5 +7,6 @@ export type TornamentRegistInfo = {
   title: string;
   eventDate: string;
   place: string;
-  limitDate: string;
+  applicationStartDate: string;
+  applicationEndDate: string;
 };

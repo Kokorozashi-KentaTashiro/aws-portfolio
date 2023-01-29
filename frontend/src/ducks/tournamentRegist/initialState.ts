@@ -11,6 +11,7 @@ export const initialState: TournamentRegistState = {
     title: "",
     eventDate: todayStr,
     place: "",
-    limitDate: todayStr,
+    applicationStartDate: todayStr,
+    applicationEndDate: todayStr,
   },
 };
