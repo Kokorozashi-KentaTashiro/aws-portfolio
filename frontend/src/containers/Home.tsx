@@ -1,14 +1,17 @@
 import { FC } from "react";
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Auth } from 'aws-amplify';
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Auth } from "aws-amplify";
 
 import { Grid } from "@mui/material";
-import { CommonContainer, CommonBox, CommonButton } from "common/commonMaterial";
+import {
+  CommonContainer,
+  CommonBox,
+  CommonButton,
+} from "common/commonMaterial";
 
 import Layout from "../components/Layout";
-import { selectLoginInfo } from 'ducks/auth/slice';
-
+import { selectLoginInfo } from "ducks/auth/slice";
 
 const Home: FC = () => {
   // Redux変数
@@ -23,14 +26,20 @@ const Home: FC = () => {
       <Layout>
         <CommonContainer maxWidth="lg">
           <CommonBox>
-            <Grid item xs={4}>サインイン済み</Grid>
-            <Grid item xs={6}>ユーザー名: {loginInfo.userName}</Grid>
-            <CommonButton variant="contained" onClick={() => Auth.signOut()}>Sign Out</CommonButton>
+            <Grid item xs={4}>
+              サインイン済み
+            </Grid>
+            <Grid item xs={6}>
+              ユーザー名: {loginInfo.userName}
+            </Grid>
+            <CommonButton variant="contained" onClick={() => Auth.signOut()}>
+              Sign Out
+            </CommonButton>
           </CommonBox>
         </CommonContainer>
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

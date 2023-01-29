@@ -4,7 +4,6 @@ export type AuthState = {
   userInfo: UserInfo;
 };
 
-
 /** ログイン情報 */
 export type LoginInfo = {
   userName: string;

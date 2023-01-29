@@ -9,7 +9,7 @@ const Other: FC = () => {
         <div>Other</div>
       </Layout>
     </>
-  )
-}
+  );
+};
 
-export default Other
+export default Other;
