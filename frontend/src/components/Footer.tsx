@@ -5,7 +5,6 @@ import styled from "@emotion/styled";
 
 export const CustomBottomNavigation = styled(BottomNavigation)`
   background-color: var(--primary-color);
-  bottom: 0;
   width: 100vw;
 `;
 

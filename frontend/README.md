@@ -10,3 +10,6 @@ Material UIの導入
 
 Cognito ログインフォーム実装  
 > https://dev.classmethod.jp/articles/react-cognito-signin/  
+
+API GateWayの呼び出し処理実装  
+> https://docs.amplify.aws/lib/restapi/getting-started/q/platform/js/  

@@ -16,11 +16,13 @@ import {
   setPlace,
   setApplicationStartDate,
   setApplicationEndDate,
+  fetchAsyncGetTournaments,
 } from "ducks/tournamentRegist/slice";
+import { AppDispatch } from "app/store";
 
 const TournamentRegist: FC = () => {
   // 変数
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const tournamentRegistInfo: TornamentRegistInfo = useSelector(
     selectTournamentRegistInfo
   );
@@ -62,7 +64,7 @@ const TournamentRegist: FC = () => {
   };
 
   const onClickConfirm = () => {
-    alert("ここでAPIGatewayを呼び出してDynamoDBにデータ登録");
+    dispatch(fetchAsyncGetTournaments());
   };
 
   return (

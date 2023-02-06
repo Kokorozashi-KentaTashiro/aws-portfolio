@@ -62,6 +62,18 @@ export class AwsStack extends cdk.Stack {
       },
     });
 
+    // Lambda： Layer作成
+    // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
+    const lambdaLayer = new lambda.LayerVersion(
+      this,
+      "tashiroCdkLambdaLayer",
+      {
+        layerVersionName: "tashiro-cdk-lambdaLayer",
+        code: lambda.AssetCode.fromAsset('./lambdaLayer'),
+        compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
+      }
+    );
+
     // Lambda: 関数作成
     // https://aws.amazon.com/jp/blogs/news/lambda-managed-by-cdk/
     const lambdaFunction = new lambda.Function(
@@ -72,6 +84,7 @@ export class AwsStack extends cdk.Stack {
         runtime: lambda.Runtime.NODEJS_18_X,
         handler: "tashiro-cdk-lambdaFunction/index.handler",
         code: lambda.Code.fromAsset(path.join(__dirname, "../lambda/build")),
+        layers: [lambdaLayer],
       }
     );
 

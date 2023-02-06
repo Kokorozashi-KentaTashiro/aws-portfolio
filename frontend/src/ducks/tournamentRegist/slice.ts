@@ -1,10 +1,24 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice, createAsyncThunk, PayloadAction, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
+import { API } from "aws-amplify";
+
 import { initialState } from "./initialState";
 import { TournamentRegistState } from "./type";
+import { API_NAME, TOURNAMENTS_GET_URL } from "common/constants";
+
 
 // 非同期処理の関数作成
+export const fetchAsyncGetTournaments = createAsyncThunk(
+  "tournaments/getTournaments",
+  async (args, thunkAPI) => {
+    const req = {};
+    try {
+      return await API.get(API_NAME, TOURNAMENTS_GET_URL, req);
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e);
+    }
+  }
+);
 
 // sliceの作成
 export const tournamentRegistSlice = createSlice({
@@ -56,6 +70,27 @@ export const tournamentRegistSlice = createSlice({
         },
       };
     },
+  },
+  extraReducers(builder: ActionReducerMapBuilder<TournamentRegistState>) {
+    builder
+      .addCase(
+        fetchAsyncGetTournaments.fulfilled,
+        (state: TournamentRegistState, action: PayloadAction<any>) => {
+          console.log(action.payload);
+        }
+      )
+      .addCase(
+        fetchAsyncGetTournaments.rejected,
+        (state: TournamentRegistState, action: PayloadAction<any>) => {
+          console.log(action.payload);
+        }
+      )
+      .addCase(
+        fetchAsyncGetTournaments.pending,
+        (state: TournamentRegistState, action: PayloadAction<any>) => {
+          console.log("loading");
+        }
+      )
   },
 });
 

@@ -9,8 +9,6 @@ import { selectLoginInfo, setLoginInfo } from 'ducks/auth/slice';
 import Login from 'containers/Login';
 import { PAGEINFOS } from 'common/PAGES';
 
-
-
 Amplify.configure(amplifyConfig);
 
 const App = () => {
