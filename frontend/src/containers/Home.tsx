@@ -26,14 +26,11 @@ const Home: FC = () => {
       <Layout>
         <CommonContainer maxWidth="lg">
           <CommonBox>
-            <Grid item xs={4}>
-              サインイン済み
-            </Grid>
             <Grid item xs={6}>
               ユーザー名: {loginInfo.userName}
             </Grid>
             <CommonButton variant="contained" onClick={() => Auth.signOut()}>
-              Sign Out
+              ログアウト
             </CommonButton>
           </CommonBox>
         </CommonContainer>

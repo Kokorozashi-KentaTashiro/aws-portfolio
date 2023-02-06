@@ -64,15 +64,11 @@ export class AwsStack extends cdk.Stack {
 
     // Lambda： Layer作成
     // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
-    const lambdaLayer = new lambda.LayerVersion(
-      this,
-      "tashiroCdkLambdaLayer",
-      {
-        layerVersionName: "tashiro-cdk-lambdaLayer",
-        code: lambda.AssetCode.fromAsset('./lambdaLayer'),
-        compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
-      }
-    );
+    const lambdaLayer = new lambda.LayerVersion(this, "tashiroCdkLambdaLayer", {
+      layerVersionName: "tashiro-cdk-lambdaLayer",
+      code: lambda.AssetCode.fromAsset("./lambdaLayer"),
+      compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
+    });
 
     // Lambda: 関数作成
     // https://aws.amazon.com/jp/blogs/news/lambda-managed-by-cdk/
@@ -107,7 +103,10 @@ export class AwsStack extends cdk.Stack {
     const tournamentsResource = restApi.root.addResource("tournaments");
 
     // ApiGateway: メソッド作成
-    tournamentsResource.addMethod("GET", new apigateway.LambdaIntegration(lambdaFunction));
+    tournamentsResource.addMethod(
+      "GET",
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
 
     // DynamoDB: テーブル作成
     const table = new dynamodb.Table(this, "tashiroCdkTable", {

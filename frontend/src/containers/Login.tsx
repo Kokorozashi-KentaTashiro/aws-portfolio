@@ -16,14 +16,11 @@ const Login: FC = () => {
     <>
       <CommonContainer maxWidth="lg">
         <CommonBox>
-          <Grid item xs={4}>
-            サインインする
-          </Grid>
           <CommonButton
             variant="contained"
             onClick={() => Auth.federatedSignIn()}
           >
-            Sign In
+            ログイン
           </CommonButton>
         </CommonBox>
       </CommonContainer>
