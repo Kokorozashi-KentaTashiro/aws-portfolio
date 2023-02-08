@@ -18,7 +18,7 @@ import { setTournamentDetailInfo } from "ducks/tournamentDetail/slice";
 
 export const TournamntCard = styled(Card)`
   width: 100%;
-  height: 200px;
+  min-height: 200px;
   margin: 10px 10%;
   cursor: pointer;
 `;
@@ -55,12 +55,13 @@ const Tournaments: FC = () => {
                   <p>{tournamentInfo.title}</p>
                   <p>{tournamentInfo.eventDate}</p>
                   <p>{tournamentInfo.place}</p>
-                  <p>{tournamentInfo.applicationStartDate}</p>
-                  <p>{tournamentInfo.applicationEndDate}</p>
-                  {new Date(tournamentInfo.applicationEndDate) < todayDate ? (
-                    <p>受付中</p>
-                  ) : (
+                  {todayDate > new Date(tournamentInfo.applicationEndDate) ? (
                     <p>受付終了</p>
+                  ) : todayDate <
+                    new Date(tournamentInfo.applicationStartDate) ? (
+                    <p>受付開始待ち</p>
+                  ) : (
+                    <p>受付中</p>
                   )}
                 </CardContent>
               </TournamntCard>
