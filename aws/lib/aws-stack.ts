@@ -82,21 +82,17 @@ export class AwsStack extends cdk.Stack {
     // https://itotetsu.hatenablog.com/entry/amazon-dynamodb-via-aws-cdk
     table.addGlobalSecondaryIndex({
       indexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
-      partitionKey: {name: 'sortKey', type: dynamodb.AttributeType.STRING},
-      sortKey: {name: 'eventDate', type: dynamodb.AttributeType.STRING}
-    })
-    
+      partitionKey: { name: "sortKey", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "eventDate", type: dynamodb.AttributeType.STRING },
+    });
+
     // Lambda： Layer作成
     // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
-    const lambdaLayer = new lambda.LayerVersion(
-      this,
-      "tashiroCdkLambdaLayer",
-      {
-        layerVersionName: "tashiro-cdk-lambdaLayer",
-        code: lambda.AssetCode.fromAsset('./lambdaLayer'),
-        compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
-      }
-    );
+    const lambdaLayer = new lambda.LayerVersion(this, "tashiroCdkLambdaLayer", {
+      layerVersionName: "tashiro-cdk-lambdaLayer",
+      code: lambda.AssetCode.fromAsset("./lambdaLayer"),
+      compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
+    });
 
     // Lambda: 関数作成
     // https://aws.amazon.com/jp/blogs/news/lambda-managed-by-cdk/
@@ -125,7 +121,7 @@ export class AwsStack extends cdk.Stack {
     const restApi = new apigateway.RestApi(this, "tashiroCdkRestApi", {
       restApiName: "tashiro-cdk-restApi",
       deployOptions: {
-        "stageName": "dev",
+        stageName: "dev",
       },
       defaultCorsPreflightOptions: {
         allowOrigins: apigateway.Cors.ALL_ORIGINS,
@@ -140,9 +136,17 @@ export class AwsStack extends cdk.Stack {
     const tournamentsResource = restApi.root.addResource("tournaments");
 
     // ApiGateway: メソッド作成
-    tournamentResource.addMethod("GET", new apigateway.LambdaIntegration(lambdaFunction));
-    tournamentResource.addMethod("POST", new apigateway.LambdaIntegration(lambdaFunction));
-    tournamentsResource.addMethod("GET", new apigateway.LambdaIntegration(lambdaFunction));
-
+    tournamentResource.addMethod(
+      "GET",
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    tournamentResource.addMethod(
+      "POST",
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    tournamentsResource.addMethod(
+      "GET",
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
   }
 }

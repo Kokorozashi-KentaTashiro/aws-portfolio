@@ -31,7 +31,7 @@ const TournamentDetail = () => {
           <div>{tournamentDetailInfo.place}</div>
           <div>{tournamentDetailInfo.applicationStartDate}</div>
           <div>{tournamentDetailInfo.applicationEndDate}</div>
-          { todayDate < new Date(tournamentDetailInfo.applicationEndDate) && (
+          {todayDate < new Date(tournamentDetailInfo.applicationEndDate) && (
             <CommonButton variant="contained" onClick={onClickApply}>
               応募
             </CommonButton>

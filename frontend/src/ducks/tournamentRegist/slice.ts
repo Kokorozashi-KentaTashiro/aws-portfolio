@@ -1,11 +1,15 @@
-import { createSlice, createAsyncThunk, PayloadAction, ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { API } from "aws-amplify";
 
 import { initialState } from "./initialState";
 import { TournamentRegistState, TornamentRegistInfo } from "./type";
 import { API_NAME, TOURNAMENT_RESOURCE } from "common/constants";
-
 
 // 非同期処理の関数作成
 export const fetchAsyncPostTournament = createAsyncThunk(
@@ -18,7 +22,7 @@ export const fetchAsyncPostTournament = createAsyncThunk(
         place: tournamentRegistInfo.place,
         applicationStartDate: tournamentRegistInfo.applicationStartDate,
         applicationEndDate: tournamentRegistInfo.applicationEndDate,
-      }
+      },
     };
     try {
       return await API.post(API_NAME, TOURNAMENT_RESOURCE, req);

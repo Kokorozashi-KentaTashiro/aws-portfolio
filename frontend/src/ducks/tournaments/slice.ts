@@ -1,4 +1,9 @@
-import { createSlice, createAsyncThunk, PayloadAction, ActionReducerMapBuilder } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  ActionReducerMapBuilder,
+} from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { API } from "aws-amplify";
 
@@ -12,7 +17,7 @@ export const fetchAsyncGetTournaments = createAsyncThunk(
   async (args, thunkAPI) => {
     console.log("fetchAsyncGetTournaments");
     const req = {
-      body: {}
+      body: {},
     };
     try {
       return await API.get(API_NAME, TOURNAMENTS_RESOURCE, req);
@@ -21,7 +26,6 @@ export const fetchAsyncGetTournaments = createAsyncThunk(
     }
   }
 );
-
 
 // sliceの作成
 export const tournamentsSlice = createSlice({

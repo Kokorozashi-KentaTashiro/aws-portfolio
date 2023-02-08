@@ -9,7 +9,10 @@ import { AppDispatch } from "app/store";
 import { todayDate } from "common/utility";
 import { TOURNAMNT_REGIST_INFO, TOURNAMNT_DETAIL_INFO } from "common/PAGES";
 import { CommonContainer, CommonButton } from "common/commonMaterial";
-import { fetchAsyncGetTournaments, selectTournamentsInfo } from "ducks/tournaments/slice";
+import {
+  fetchAsyncGetTournaments,
+  selectTournamentsInfo,
+} from "ducks/tournaments/slice";
 import { TornamentInfo } from "ducks/tournaments/type";
 import { setTournamentDetailInfo } from "ducks/tournamentDetail/slice";
 
@@ -54,7 +57,11 @@ const Tournaments: FC = () => {
                   <p>{tournamentInfo.place}</p>
                   <p>{tournamentInfo.applicationStartDate}</p>
                   <p>{tournamentInfo.applicationEndDate}</p>
-                  {new Date(tournamentInfo.applicationEndDate) <  todayDate ? <p>受付中</p> : <p>受付終了</p>}
+                  {new Date(tournamentInfo.applicationEndDate) < todayDate ? (
+                    <p>受付中</p>
+                  ) : (
+                    <p>受付終了</p>
+                  )}
                 </CardContent>
               </TournamntCard>
             );
