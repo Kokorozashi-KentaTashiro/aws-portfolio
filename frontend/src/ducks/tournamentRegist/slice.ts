@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  PayloadAction,
-  ActionReducerMapBuilder,
-} from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction, ActionReducerMapBuilder } from "@reduxjs/toolkit";
 import { RootState } from "app/store";
 import { API } from "aws-amplify";
 
@@ -11,13 +6,18 @@ import { initialState } from "./initialState";
 import { TournamentRegistState } from "./type";
 import { API_NAME, TOURNAMENTS_GET_URL } from "common/constants";
 
+
 // 非同期処理の関数作成
 export const fetchAsyncGetTournaments = createAsyncThunk(
   "tournaments/getTournaments",
   async (args, thunkAPI) => {
-    const req = {};
+    const req = {
+      queryStringParameters: {
+        partitionKey: "test"
+      }
+    };
     try {
-      return await API.get(API_NAME, TOURNAMENTS_GET_URL, req);
+      return await API.post(API_NAME, TOURNAMENTS_GET_URL, req);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
