@@ -16,7 +16,7 @@ import {
   setPlace,
   setApplicationStartDate,
   setApplicationEndDate,
-  fetchAsyncGetTournaments,
+  fetchAsyncPostTournament,
 } from "ducks/tournamentRegist/slice";
 import { AppDispatch } from "app/store";
 
@@ -64,7 +64,7 @@ const TournamentRegist: FC = () => {
   };
 
   const onClickConfirm = () => {
-    dispatch(fetchAsyncGetTournaments());
+    dispatch(fetchAsyncPostTournament(tournamentRegistInfo));
   };
 
   return (

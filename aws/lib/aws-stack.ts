@@ -10,6 +10,8 @@ import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 
 import * as path from "path";
 
+import { GLOBAL_INDEX_SORTKEY_EVENTDATE } from "../lambda/common/constants";
+
 export class AwsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -76,6 +78,14 @@ export class AwsStack extends cdk.Stack {
       },
     });
 
+    // DynamoDB: インデックス作成
+    // https://itotetsu.hatenablog.com/entry/amazon-dynamodb-via-aws-cdk
+    table.addGlobalSecondaryIndex({
+      indexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
+      partitionKey: {name: 'sortKey', type: dynamodb.AttributeType.STRING},
+      sortKey: {name: 'eventDate', type: dynamodb.AttributeType.STRING}
+    })
+    
     // Lambda： Layer作成
     // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
     const lambdaLayer = new lambda.LayerVersion(
@@ -126,10 +136,13 @@ export class AwsStack extends cdk.Stack {
     });
 
     // ApiGateway: リソース作成
+    const tournamentResource = restApi.root.addResource("tournament");
     const tournamentsResource = restApi.root.addResource("tournaments");
 
     // ApiGateway: メソッド作成
-    tournamentsResource.addMethod("POST", new apigateway.LambdaIntegration(lambdaFunction));
+    tournamentResource.addMethod("GET", new apigateway.LambdaIntegration(lambdaFunction));
+    tournamentResource.addMethod("POST", new apigateway.LambdaIntegration(lambdaFunction));
+    tournamentsResource.addMethod("GET", new apigateway.LambdaIntegration(lambdaFunction));
 
   }
 }

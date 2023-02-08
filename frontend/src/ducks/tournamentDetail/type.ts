@@ -5,7 +5,8 @@ export type TournamentDetailState = {
 /** 大会要項情報 */
 export type TornamentDetailInfo = {
   title: string;
-  date: string;
+  eventDate: string;
   place: string;
-  reception: boolean;
+  applicationStartDate: string;
+  applicationEndDate: string;
 };

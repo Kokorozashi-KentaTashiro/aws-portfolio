@@ -1,21 +1,18 @@
-import * as AWS from "aws-sdk"
 import { APIGatewayEvent } from 'aws-lambda';
-import { TABLE_NAME } from './common/constants';
+import { TOURNAMENT_RESOURCE, TOURNAMENTS_RESOURCE } from './common/constants';
+import { postTournamentRegist } from "./postTournamentRegist";
+import { getTournaments } from './getTournaments';
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // https://abillyz.com/vclbuff/studies/352
 // npm run buildで「./build/*」以外をビルドするように設定
 export const handler = async (event: APIGatewayEvent) => {
 
+    // requestBodyの取得
     let reqBody;
-
     if (event.body) {
         reqBody = JSON.parse(event.body);
-    } else {
-        return;
-    }
-
+    };
 
     // return用の変数宣言
     let statusCode = 200;
@@ -23,18 +20,23 @@ export const handler = async (event: APIGatewayEvent) => {
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json",
     };
-    let response = {result: "None"};
+    let response;
 
-    // DynamoDBレコード作成
-    const result = await dynamodb.put({
-        TableName: TABLE_NAME,
-        Item: {
-            "partitionKey": reqBody.partitionKey,
-            "sortKey": "testSortKey",
-            "column1": "testColumn1",
-        }
-    }).promise();
+    // apiGateWayのresource名を取得
+    let resource = event.resource;
+    let httpMethod = event.httpMethod;
 
+    // 実処理
+    switch (resource) {
+        case TOURNAMENT_RESOURCE:
+            response = await postTournamentRegist(reqBody);
+            break;
+        case TOURNAMENTS_RESOURCE:
+            response = await getTournaments();
+            break;
+        default:
+            throw 'not found evenet resource;';
+    };
 
     // return
     return {

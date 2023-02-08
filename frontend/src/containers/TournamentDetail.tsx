@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Layout from "components/Layout";
 
+import { todayDate } from "common/utility";
 import { TOURNAMNT_APPLICATION_INFO } from "common/PAGES";
 import { CommonContainer, CommonButton } from "common/commonMaterial";
 import { selectTournamentDetailInfo } from "ducks/tournamentDetail/slice";
@@ -19,14 +20,18 @@ const TournamentDetail = () => {
     navigate(TOURNAMNT_APPLICATION_INFO.URL);
   };
 
+  console.log(new Date(tournamentDetailInfo.applicationEndDate) < todayDate);
+
   return (
     <>
       <Layout>
         <CommonContainer>
           <div>{tournamentDetailInfo.title}</div>
-          <div>{tournamentDetailInfo.date}</div>
+          <div>{tournamentDetailInfo.eventDate}</div>
           <div>{tournamentDetailInfo.place}</div>
-          {tournamentDetailInfo.reception && (
+          <div>{tournamentDetailInfo.applicationStartDate}</div>
+          <div>{tournamentDetailInfo.applicationEndDate}</div>
+          { todayDate < new Date(tournamentDetailInfo.applicationEndDate) && (
             <CommonButton variant="contained" onClick={onClickApply}>
               応募
             </CommonButton>

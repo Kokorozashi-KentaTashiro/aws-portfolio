@@ -13,3 +13,4 @@ Cognito ログインフォーム実装
 
 API GateWayの呼び出し処理実装  
 > https://docs.amplify.aws/lib/restapi/getting-started/q/platform/js/  
+> https://docs.amplify.aws/lib/restapi/update/q/platform/js/#put-data  

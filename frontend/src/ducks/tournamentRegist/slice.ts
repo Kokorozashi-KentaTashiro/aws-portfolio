@@ -3,21 +3,25 @@ import { RootState } from "app/store";
 import { API } from "aws-amplify";
 
 import { initialState } from "./initialState";
-import { TournamentRegistState } from "./type";
-import { API_NAME, TOURNAMENTS_GET_URL } from "common/constants";
+import { TournamentRegistState, TornamentRegistInfo } from "./type";
+import { API_NAME, TOURNAMENT_RESOURCE } from "common/constants";
 
 
 // 非同期処理の関数作成
-export const fetchAsyncGetTournaments = createAsyncThunk(
-  "tournaments/getTournaments",
-  async (args, thunkAPI) => {
+export const fetchAsyncPostTournament = createAsyncThunk(
+  "tournament/postTournament",
+  async (tournamentRegistInfo: TornamentRegistInfo, thunkAPI) => {
     const req = {
-      queryStringParameters: {
-        partitionKey: "test"
+      body: {
+        title: tournamentRegistInfo.title,
+        eventDate: tournamentRegistInfo.eventDate,
+        place: tournamentRegistInfo.place,
+        applicationStartDate: tournamentRegistInfo.applicationStartDate,
+        applicationEndDate: tournamentRegistInfo.applicationEndDate,
       }
     };
     try {
-      return await API.post(API_NAME, TOURNAMENTS_GET_URL, req);
+      return await API.post(API_NAME, TOURNAMENT_RESOURCE, req);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }
@@ -78,19 +82,19 @@ export const tournamentRegistSlice = createSlice({
   extraReducers(builder: ActionReducerMapBuilder<TournamentRegistState>) {
     builder
       .addCase(
-        fetchAsyncGetTournaments.fulfilled,
+        fetchAsyncPostTournament.fulfilled,
         (state: TournamentRegistState, action: PayloadAction<any>) => {
           console.log(action.payload);
         }
       )
       .addCase(
-        fetchAsyncGetTournaments.rejected,
+        fetchAsyncPostTournament.rejected,
         (state: TournamentRegistState, action: PayloadAction<any>) => {
           console.log(action.payload);
         }
       )
       .addCase(
-        fetchAsyncGetTournaments.pending,
+        fetchAsyncPostTournament.pending,
         (state: TournamentRegistState, action: PayloadAction<any>) => {
           console.log("loading");
         }
