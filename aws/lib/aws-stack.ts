@@ -62,52 +62,6 @@ export class AwsStack extends cdk.Stack {
       },
     });
 
-    // Lambda： Layer作成
-    // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
-    const lambdaLayer = new lambda.LayerVersion(this, "tashiroCdkLambdaLayer", {
-      layerVersionName: "tashiro-cdk-lambdaLayer",
-      code: lambda.AssetCode.fromAsset("./lambdaLayer"),
-      compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
-    });
-
-    // Lambda: 関数作成
-    // https://aws.amazon.com/jp/blogs/news/lambda-managed-by-cdk/
-    const lambdaFunction = new lambda.Function(
-      this,
-      "tashiroCdkLambdaFunction",
-      {
-        functionName: "tashiro-cdk-lambdaFunction",
-        runtime: lambda.Runtime.NODEJS_18_X,
-        handler: "tashiro-cdk-lambdaFunction/index.handler",
-        code: lambda.Code.fromAsset(path.join(__dirname, "../lambda/build")),
-        layers: [lambdaLayer],
-      }
-    );
-
-    // ApiGateway: REST API作成
-    // https://dev.classmethod.jp/articles/cors-on-rest-api-of-api-gateway/
-    const restApi = new apigateway.RestApi(this, "tashiroCdkRestApi", {
-      restApiName: "tashiro-cdk-restApi",
-      deployOptions: {
-        stageName: "dev",
-      },
-      defaultCorsPreflightOptions: {
-        allowOrigins: apigateway.Cors.ALL_ORIGINS,
-        allowMethods: apigateway.Cors.ALL_METHODS,
-        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
-        statusCode: 200,
-      },
-    });
-
-    // ApiGateway: リソース作成
-    const tournamentsResource = restApi.root.addResource("tournaments");
-
-    // ApiGateway: メソッド作成
-    tournamentsResource.addMethod(
-      "GET",
-      new apigateway.LambdaIntegration(lambdaFunction)
-    );
-
     // DynamoDB: テーブル作成
     const table = new dynamodb.Table(this, "tashiroCdkTable", {
       tableName: "tashiro-cdk-table",
@@ -121,5 +75,61 @@ export class AwsStack extends cdk.Stack {
         type: dynamodb.AttributeType.STRING,
       },
     });
+
+    // Lambda： Layer作成
+    // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
+    const lambdaLayer = new lambda.LayerVersion(
+      this,
+      "tashiroCdkLambdaLayer",
+      {
+        layerVersionName: "tashiro-cdk-lambdaLayer",
+        code: lambda.AssetCode.fromAsset('./lambdaLayer'),
+        compatibleRuntimes: [lambda.Runtime.NODEJS_18_X],
+      }
+    );
+
+    // Lambda: 関数作成
+    // https://aws.amazon.com/jp/blogs/news/lambda-managed-by-cdk/
+    const lambdaFunction = new lambda.Function(
+      this,
+      "tashiroCdkLambdaFunction",
+      {
+        functionName: "tashiro-cdk-lambdaFunction",
+        runtime: lambda.Runtime.NODEJS_18_X,
+        handler: "tashiro-cdk-lambdaFunction/index.handler",
+        code: lambda.Code.fromAsset(path.join(__dirname, "../lambda/build")),
+        layers: [lambdaLayer],
+        environment: {
+          TABLE_NAME: "tashiro-cdk-table",
+          PRIMARY_KEY: "partitionKey",
+        },
+      }
+    );
+
+    // Lambda: dynamoDBアクセス権限付与
+    // https://dev.classmethod.jp/articles/aws-cdk-101-typescript/
+    table.grantFullAccess(lambdaFunction);
+
+    // ApiGateway: REST API作成
+    // https://dev.classmethod.jp/articles/cors-on-rest-api-of-api-gateway/
+    const restApi = new apigateway.RestApi(this, "tashiroCdkRestApi", {
+      restApiName: "tashiro-cdk-restApi",
+      deployOptions: {
+        "stageName": "dev",
+      },
+      defaultCorsPreflightOptions: {
+        allowOrigins: apigateway.Cors.ALL_ORIGINS,
+        allowMethods: apigateway.Cors.ALL_METHODS,
+        allowHeaders: apigateway.Cors.DEFAULT_HEADERS,
+        statusCode: 200,
+      },
+    });
+
+    // ApiGateway: リソース作成
+    const tournamentsResource = restApi.root.addResource("tournaments");
+
+    // ApiGateway: メソッド作成
+    tournamentsResource.addMethod("POST", new apigateway.LambdaIntegration(lambdaFunction));
+
   }
 }
