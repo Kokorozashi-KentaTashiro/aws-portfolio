@@ -1,7 +1,14 @@
 import { APIGatewayEvent } from "aws-lambda";
-import { TOURNAMENT_RESOURCE, TOURNAMENTS_RESOURCE } from "./common/constants";
-import { postTournamentRegist } from "./postTournamentRegist";
-import { getTournaments } from "./getTournaments";
+import {
+  USERINFO_RESOURCE,
+  TOURNAMENT_RESOURCE,
+  TOURNAMENTS_RESOURCE,
+  EVENET_HTTP_POST,
+} from "./common/constants";
+import { getUserInfo } from "./userInfo/getUserInfo";
+import { putTournament } from "./tournament/putTournament";
+import { getTournaments } from "./tournaments/getTournaments";
+import { putUserInfo } from "./userInfo/putUserInfo";
 
 // https://abillyz.com/vclbuff/studies/352
 // npm run buildで「./build/*」以外をビルドするように設定
@@ -26,10 +33,19 @@ export const handler = async (event: APIGatewayEvent) => {
 
   // 実処理
   switch (resource) {
-    case TOURNAMENT_RESOURCE:
-      response = await postTournamentRegist(reqBody);
+    case `/${USERINFO_RESOURCE}`:
+      if (httpMethod === EVENET_HTTP_POST) {
+        response = await getUserInfo(reqBody);
+      } else {
+        response = await putUserInfo(reqBody);
+      }
       break;
-    case TOURNAMENTS_RESOURCE:
+
+    case `/${TOURNAMENT_RESOURCE}`:
+      response = await putTournament(reqBody);
+      break;
+
+    case `/${TOURNAMENTS_RESOURCE}`:
       response = await getTournaments();
       break;
     default:

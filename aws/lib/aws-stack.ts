@@ -7,10 +7,20 @@ import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
+import * as ses from "aws-cdk-lib/aws-ses";
+import * as route53 from "aws-cdk-lib/aws-route53";
 
 import * as path from "path";
 
-import { GLOBAL_INDEX_SORTKEY_EVENTDATE } from "../lambda/common/constants";
+import {
+  GLOBAL_INDEX_SORTKEY_EVENTDATE,
+  EVENET_HTTP_GET,
+  EVENET_HTTP_POST,
+  USERINFO_RESOURCE,
+  TOURNAMENT_RESOURCE,
+  TOURNAMENTS_RESOURCE,
+  EVENET_HTTP_PUT,
+} from "../lambda/common/constants";
 
 export class AwsStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -132,21 +142,32 @@ export class AwsStack extends cdk.Stack {
     });
 
     // ApiGateway: リソース作成
-    const tournamentResource = restApi.root.addResource("tournament");
-    const tournamentsResource = restApi.root.addResource("tournaments");
+    const userInfoResource = restApi.root.addResource(USERINFO_RESOURCE);
+    const tournamentResource = restApi.root.addResource(TOURNAMENT_RESOURCE);
+    const tournamentsResource = restApi.root.addResource(TOURNAMENTS_RESOURCE);
 
     // ApiGateway: メソッド作成
-    tournamentResource.addMethod(
-      "GET",
+    userInfoResource.addMethod(
+      EVENET_HTTP_POST,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    userInfoResource.addMethod(
+      EVENET_HTTP_PUT,
       new apigateway.LambdaIntegration(lambdaFunction)
     );
     tournamentResource.addMethod(
-      "POST",
+      EVENET_HTTP_PUT,
       new apigateway.LambdaIntegration(lambdaFunction)
     );
     tournamentsResource.addMethod(
-      "GET",
+      EVENET_HTTP_GET,
       new apigateway.LambdaIntegration(lambdaFunction)
     );
+
+    const sesId = new ses.EmailIdentity(this, "tashiroCdkSesIdentity", {
+      identity: {
+        value: "kenta.tashiro@kokorozashi-japan.co.jp",
+      },
+    });
   }
 }

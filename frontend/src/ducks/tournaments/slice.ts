@@ -13,9 +13,8 @@ import { API_NAME, TOURNAMENTS_RESOURCE } from "common/constants";
 
 // 非同期処理の関数作成
 export const fetchAsyncGetTournaments = createAsyncThunk(
-  "tournaments/getTournaments",
+  "tournaments/get",
   async (args, thunkAPI) => {
-    console.log("fetchAsyncGetTournaments");
     const req = {
       body: {},
     };
@@ -37,7 +36,6 @@ export const tournamentsSlice = createSlice({
       .addCase(
         fetchAsyncGetTournaments.fulfilled,
         (state: TournamentsState, action: PayloadAction<any>) => {
-          console.log(action.payload);
           return {
             ...state,
             tournamentsInfo: action.payload,

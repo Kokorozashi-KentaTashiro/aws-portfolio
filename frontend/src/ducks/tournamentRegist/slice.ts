@@ -13,7 +13,7 @@ import { API_NAME, TOURNAMENT_RESOURCE } from "common/constants";
 
 // 非同期処理の関数作成
 export const fetchAsyncPostTournament = createAsyncThunk(
-  "tournament/postTournament",
+  "tournament/put",
   async (tournamentRegistInfo: TornamentRegistInfo, thunkAPI) => {
     const req = {
       body: {
@@ -25,7 +25,7 @@ export const fetchAsyncPostTournament = createAsyncThunk(
       },
     };
     try {
-      return await API.post(API_NAME, TOURNAMENT_RESOURCE, req);
+      return await API.put(API_NAME, TOURNAMENT_RESOURCE, req);
     } catch (e) {
       return thunkAPI.rejectWithValue(e);
     }

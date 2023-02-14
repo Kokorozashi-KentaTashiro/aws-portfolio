@@ -1,20 +1,12 @@
 import { FC, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Card, CardContent } from "@mui/material";
 import Layout from "components/Layout";
 import styled from "@emotion/styled";
 
-import { AppDispatch } from "app/store";
 import { todayDate } from "common/utility";
-import { TOURNAMNT_REGIST_INFO, TOURNAMNT_DETAIL_INFO } from "common/PAGES";
 import { CommonContainer, CommonButton } from "common/commonMaterial";
-import {
-  fetchAsyncGetTournaments,
-  selectTournamentsInfo,
-} from "ducks/tournaments/slice";
-import { TornamentInfo } from "ducks/tournaments/type";
-import { setTournamentDetailInfo } from "ducks/tournamentDetail/slice";
+import { fetchAsyncGetTournaments } from "ducks/tournaments/slice";
+import { useTournamentsHook } from "hooks/tournamentsHook";
 
 export const TournamntCard = styled(Card)`
   width: 100%;
@@ -24,20 +16,9 @@ export const TournamntCard = styled(Card)`
 `;
 
 const Tournaments: FC = () => {
-  // 変数
-  const navigate = useNavigate();
-  const dispatch = useDispatch<AppDispatch>();
-  const tournamentsInfo: TornamentInfo[] = useSelector(selectTournamentsInfo);
-
-  // 関数
-  const onClickCard = (tournamentInfo: TornamentInfo) => {
-    dispatch(setTournamentDetailInfo(tournamentInfo));
-    navigate(TOURNAMNT_DETAIL_INFO.URL);
-  };
-
-  const onClickButton = () => {
-    navigate(TOURNAMNT_REGIST_INFO.URL);
-  };
+  // ReactHook
+  const { dispatch, tournamentsInfo, onClickCard, onClickButton } =
+    useTournamentsHook();
 
   // useEffect
   useEffect(() => {

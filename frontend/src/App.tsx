@@ -5,26 +5,32 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Amplify, Auth, Hub } from 'aws-amplify';
 import { amplifyConfig } from './constants/amplifyConfig';
 
-import { selectLoginInfo, setLoginInfo } from 'ducks/auth/slice';
+import { selectLoginInfo,  setUserId, fetchAsyncGetUserInfo } from 'ducks/auth/slice';
+import { LoginInfo } from 'ducks/auth/type';
 import Login from 'containers/Login';
 import { PAGEINFOS } from 'common/PAGES';
+import { AppDispatch } from "app/store";
+import UserRegist from 'containers/UserRegist';
 
 Amplify.configure(amplifyConfig);
 
 const App = () => {
   // Redux変数
-  const dispatch = useDispatch();
-  const loginInfo = useSelector(selectLoginInfo);
+  const dispatch = useDispatch<AppDispatch>();
+  const loginInfo: LoginInfo = useSelector(selectLoginInfo);
 
   useEffect(() => {
     Hub.listen('auth', ({ payload: { event, data } }) => {
       switch (event) {
         case 'signIn':
         case 'cognitoHostedUI':
-          getUser().then(userData => dispatch(setLoginInfo(userData.username)));
+          getUser().then(userData => {
+            dispatch(setUserId(userData.username));
+            dispatch(fetchAsyncGetUserInfo(userData.username));
+          });
           break;
         case 'signOut':
-          dispatch(setLoginInfo(""));
+          dispatch(setUserId(""));
           break;
         case 'signIn_failure':
         case 'cognitoHostedUI_failure':
@@ -33,8 +39,12 @@ const App = () => {
       }
     });
 
-    getUser().then(userData => dispatch(setLoginInfo(userData.username)));
-  }, []);
+    getUser().then(userData => {
+      dispatch(setUserId(userData.username))
+      dispatch(fetchAsyncGetUserInfo(userData.username));
+    });
+    
+  }, [dispatch]);
 
   const getUser = async () => {
     try {
@@ -52,14 +62,18 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      {loginInfo.userName ? (
-        <Routes>
-          {PAGEINFOS.map((PAGEINFO) => {
-            return (
-              <Route key={PAGEINFO.CONTEXT} path={PAGEINFO.URL} element={PAGEINFO.ELEMENT} />
-            );
-          })}
-        </Routes>
+      {loginInfo.userId ? (
+        loginInfo.userInfoStatus ? (
+          <Routes>
+            {PAGEINFOS.map((PAGEINFO) => {
+              return (
+                <Route key={PAGEINFO.CONTEXT} path={PAGEINFO.URL} element={PAGEINFO.ELEMENT} />
+              );
+            })}
+          </Routes>
+        ) : (
+          <UserRegist />
+        )
       ) : (
         <Login />
       )}

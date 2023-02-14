@@ -27,7 +27,7 @@ const Home: FC = () => {
         <CommonContainer maxWidth="lg">
           <CommonBox>
             <Grid item xs={6}>
-              ユーザー名: {loginInfo.userName}
+              ユーザー名: {loginInfo.userId}
             </Grid>
             <CommonButton variant="contained" onClick={() => Auth.signOut()}>
               ログアウト

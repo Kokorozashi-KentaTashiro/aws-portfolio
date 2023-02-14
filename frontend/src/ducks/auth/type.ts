@@ -6,16 +6,16 @@ export type AuthState = {
 
 /** ログイン情報 */
 export type LoginInfo = {
-  userName: string;
+  userId: string;
+  userInfoStatus: boolean;
 };
 
 /** ユーザ情報 */
 export type UserInfo = {
   isAdmin: boolean;
-  partitionKey: string;
-  firstName: string;
+  userId: string;
   lastName: string;
+  firstName: string;
   email: string;
-  picture: string;
-  deleteFlg: number;
+  phone: string;
 };

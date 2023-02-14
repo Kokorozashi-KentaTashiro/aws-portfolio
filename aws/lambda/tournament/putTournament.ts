@@ -1,8 +1,8 @@
 import * as AWS from "aws-sdk";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
-import { TABLE_NAME, TOURNAMENT_SORTKEY } from "./common/constants";
+import { TABLE_NAME, TOURNAMENT_SORTKEY } from "../common/constants";
 
-export const postTournamentRegist = async (body: any) => {
+export const putTournament = async (body: any) => {
   // DynamoDBレコード作成
   const result = await dynamodb
     .put({

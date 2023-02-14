@@ -6,7 +6,10 @@ export const GLOBAL_INDEX_SORTKEY_EVENTDATE = "global_sortKey_eventDate";
 // Lambda関係の定数
 export const EVENET_HTTP_GET = "GET";
 export const EVENET_HTTP_POST = "POST";
-export const TOURNAMENT_RESOURCE = "/tournament";
-export const TOURNAMENTS_RESOURCE = "/tournaments";
+export const EVENET_HTTP_PUT = "PUT";
+export const USERINFO_RESOURCE = "userInfo";
+export const TOURNAMENT_RESOURCE = "tournament";
+export const TOURNAMENTS_RESOURCE = "tournaments";
 
 export const TOURNAMENT_SORTKEY = "tournament";
+export const USERINFO_SORTKEY = "userInfo";

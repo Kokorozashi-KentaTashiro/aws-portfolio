@@ -4,10 +4,10 @@ import {
   TABLE_NAME,
   GLOBAL_INDEX_SORTKEY_EVENTDATE,
   TOURNAMENT_SORTKEY,
-} from "./common/constants";
+} from "../common/constants";
 
 export const getTournaments = async () => {
-  // DynamoDBレコード作成
+  // DynamoDBレコード検索
   // https://qiita.com/sayama0402/items/fc7ce074f1f1747b1bef
   const queryResults: any = await dynamodb
     .query({

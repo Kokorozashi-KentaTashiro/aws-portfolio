@@ -1,16 +1,16 @@
 import { AuthState } from "./type";
 export const initialState: AuthState = {
   loginInfo: {
-    userName: "",
+    userId: "",
+    userInfoStatus: false,
   },
 
   userInfo: {
     isAdmin: false,
-    partitionKey: "",
-    firstName: "",
+    userId: "",
     lastName: "",
+    firstName: "",
     email: "",
-    picture: "",
-    deleteFlg: 0,
+    phone: "",
   },
 };
