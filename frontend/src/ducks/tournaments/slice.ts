@@ -36,6 +36,7 @@ export const tournamentsSlice = createSlice({
       .addCase(
         fetchAsyncGetTournaments.fulfilled,
         (state: TournamentsState, action: PayloadAction<any>) => {
+          console.log("tournaments/fetchAsyncGetTournaments：fulfilled");
           return {
             ...state,
             tournamentsInfo: action.payload,
@@ -45,14 +46,12 @@ export const tournamentsSlice = createSlice({
       .addCase(
         fetchAsyncGetTournaments.rejected,
         (state: TournamentsState, action: PayloadAction<any>) => {
-          console.log(action.payload);
+          console.log("tournaments/fetchAsyncGetTournaments：rejected");
         }
       )
       .addCase(
         fetchAsyncGetTournaments.pending,
-        (state: TournamentsState, action: PayloadAction<any>) => {
-          console.log("loading");
-        }
+        (state: TournamentsState, action: PayloadAction<any>) => {}
       );
   },
 });

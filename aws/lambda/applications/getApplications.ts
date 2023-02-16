@@ -1,4 +1,3 @@
-import console = require("console");
 import * as AWS from "aws-sdk";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 import {
@@ -7,31 +6,21 @@ import {
   TOURNAMENT_SORTKEY,
 } from "../common/constants";
 
-export const getTournaments = async () => {
+export const getApplications = async (body: any) => {
   // DynamoDBレコード検索
   // https://qiita.com/sayama0402/items/fc7ce074f1f1747b1bef
-  console.log("【getTournaments/start】");
   const queryResults: any = await dynamodb
-    .query(
-      {
-        TableName: TABLE_NAME,
-        IndexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
-        ExpressionAttributeNames: {
-          "#sk": "sortKey",
-        },
-        ExpressionAttributeValues: {
-          ":sk": TOURNAMENT_SORTKEY,
-        },
-        KeyConditionExpression: "#sk = :sk",
+    .query({
+      TableName: TABLE_NAME,
+      IndexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
+      ExpressionAttributeNames: {
+        "#sk": "sortKey",
       },
-      (err, res) => {
-        if (err) {
-          console.log(`【getTournaments/error】${err}`);
-        } else {
-          console.log(`【getTournaments/success】${res}`);
-        }
-      }
-    )
+      ExpressionAttributeValues: {
+        ":sk": TOURNAMENT_SORTKEY,
+      },
+      KeyConditionExpression: "#sk = :sk",
+    })
     .promise();
 
   const result = queryResults.Items.map((queryResult: any) => {

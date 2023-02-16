@@ -1,22 +1,27 @@
 import { ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Dayjs } from "dayjs";
 
 import { TornamentRegistInfo } from "ducks/tournamentRegist/type";
 import {
+  initTournamentRegistState,
   selectTournamentRegistInfo,
   setTitle,
   setEventDate,
   setPlace,
   setApplicationStartDate,
   setApplicationEndDate,
-  fetchAsyncPostTournament,
+  fetchAsyncPutTournament,
 } from "ducks/tournamentRegist/slice";
 import { AppDispatch } from "app/store";
+import { TOURNAMNTS_INFO } from "common/PAGES";
+import { setPage } from "ducks/effect/slice";
 
 export const useTournamentRegistHook = () => {
   // 変数
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const tournamentRegistInfo: TornamentRegistInfo = useSelector(
     selectTournamentRegistInfo
   );
@@ -58,7 +63,10 @@ export const useTournamentRegistHook = () => {
   };
 
   const onClickConfirm = () => {
-    dispatch(fetchAsyncPostTournament(tournamentRegistInfo));
+    dispatch(fetchAsyncPutTournament(tournamentRegistInfo));
+    dispatch(initTournamentRegistState());
+    navigate(TOURNAMNTS_INFO.URL);
+    dispatch(setPage(TOURNAMNTS_INFO.URL));
   };
 
   return {

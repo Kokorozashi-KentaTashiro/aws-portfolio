@@ -17,13 +17,14 @@ export const TournamntCard = styled(Card)`
 
 const Tournaments: FC = () => {
   // ReactHook
-  const { dispatch, tournamentsInfo, onClickCard, onClickButton } =
+  const { dispatch, tournamentsInfo, page, onClickCard, onClickButton } =
     useTournamentsHook();
 
   // useEffect
   useEffect(() => {
+    console.log("Tournaments：rendering");
     dispatch(fetchAsyncGetTournaments());
-  }, [dispatch]);
+  }, [page, dispatch]);
 
   return (
     <>

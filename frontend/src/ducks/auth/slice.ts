@@ -110,13 +110,16 @@ export const authSlice = createSlice({
       .addCase(
         fetchAsyncGetUserInfo.fulfilled,
         (state: AuthState, action: PayloadAction<any>) => {
-          console.log("fetchAsyncGetUserInfo成功");
-          console.log(action.payload);
+          console.log("auth/fetchAsyncGetUserInfo：fulfilled");
 
           let judgeStatus = false;
           if (action.payload.firstName) {
             judgeStatus = true;
           }
+
+          let judgeEmail = action.payload.email
+            ? action.payload.email
+            : state.userInfo.email;
 
           return {
             ...state,
@@ -124,25 +127,32 @@ export const authSlice = createSlice({
               ...state.loginInfo,
               userInfoStatus: judgeStatus,
             },
-            userInfo: action.payload,
+            userInfo: {
+              ...state.userInfo,
+              isAdmin: action.payload.isAdmin,
+              userId: action.payload.userId,
+              lastName: action.payload.lastName,
+              firstName: action.payload.firstName,
+              email: judgeEmail,
+              phone: action.payload.phone,
+            },
           };
         }
       )
       .addCase(
         fetchAsyncGetUserInfo.rejected,
         (state: AuthState, action: PayloadAction<any>) => {
-          console.log("fetchAsyncGetUserInfo失敗");
+          console.log("auth/fetchAsyncGetUserInfo：rejected");
         }
       )
       .addCase(
         fetchAsyncGetUserInfo.pending,
-        (state: AuthState, action: PayloadAction<any>) => {
-          console.log("fetchAsyncGetUserInfo実行中");
-        }
+        (state: AuthState, action: PayloadAction<any>) => {}
       )
       .addCase(
         fetchAsyncPutUserInfo.fulfilled,
         (state: AuthState, action: PayloadAction<any>) => {
+          console.log("auth/fetchAsyncPutUserInfo：fulfilled");
           return {
             ...state,
             loginInfo: {
@@ -155,15 +165,13 @@ export const authSlice = createSlice({
       .addCase(
         fetchAsyncPutUserInfo.rejected,
         (state: AuthState, action: PayloadAction<any>) => {
-          console.log("fetchAsyncPutUserInfo失敗");
+          console.log("auth/fetchAsyncPutUserInfo：rejected");
           console.log(action.payload);
         }
       )
       .addCase(
         fetchAsyncPutUserInfo.pending,
-        (state: AuthState, action: PayloadAction<any>) => {
-          console.log("fetchAsyncPutUserInfo実行中");
-        }
+        (state: AuthState, action: PayloadAction<any>) => {}
       );
   },
 });

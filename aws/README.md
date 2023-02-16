@@ -38,3 +38,7 @@ cd ./lambda
 　./lambda/node_modules⇒./lambdaLayer/nodejs/  
 　 ↑ の通りコピー  
  cdk にて lambda.LayerVersion の fromAsset に./lambdaLayer を設定
+
+## prettier の導入
+
+https://ralacode.com/blog/post/vscode-prettier/

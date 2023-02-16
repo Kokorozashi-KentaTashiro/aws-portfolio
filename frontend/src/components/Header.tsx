@@ -1,6 +1,4 @@
 import { FC } from "react";
-import * as React from "react";
-import { useNavigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -16,10 +14,8 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import styled from "@emotion/styled";
 
-import { Auth } from "aws-amplify";
-import { PAGEINFOS } from "common/PAGES";
-
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+import { PAGEINFOS, HOME_INFO } from "common/PAGES";
+import { useHeaderHook } from "hooks/headerHook";
 
 export const CustomTypography = styled(Typography)`
   mr: 2;
@@ -38,36 +34,18 @@ export const CustomAppBar = styled(AppBar)`
 // Headerのテンプレート
 // https://mui.com/material-ui/react-app-bar/
 const Header: FC = () => {
-  // useState
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
-    null
-  );
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  );
-
-  // react-router-dom
-  const navigate = useNavigate();
-
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleClickUserMenu = () => {
-    Auth.signOut();
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
+  // ReactHook
+  const {
+    settings,
+    anchorElNav,
+    anchorElUser,
+    handleOpenNavMenu,
+    handleOpenUserMenu,
+    handleCloseNavMenu,
+    handleClickUserMenu,
+    handleCloseUserMenu,
+    menuOnClick,
+  } = useHeaderHook();
   return (
     <CustomAppBar position="static">
       <Container maxWidth="xl">
@@ -76,7 +54,7 @@ const Header: FC = () => {
           <CustomTypography
             variant="h6"
             noWrap
-            onClick={() => navigate("/")}
+            onClick={() => menuOnClick(HOME_INFO.URL)}
             sx={{ display: { xs: "none", md: "flex" } }}
           >
             千葉県中体連卓球部
@@ -116,7 +94,7 @@ const Header: FC = () => {
                   PAGEINFO.VIEW && (
                     <MenuItem
                       key={PAGEINFO.CONTEXT}
-                      onClick={() => navigate(PAGEINFO.URL)}
+                      onClick={() => menuOnClick(PAGEINFO.URL)}
                     >
                       <Typography textAlign="center">
                         {PAGEINFO.CONTEXT}
@@ -130,7 +108,7 @@ const Header: FC = () => {
           <CustomTypography
             variant="h5"
             noWrap
-            onClick={() => navigate("/")}
+            onClick={() => menuOnClick(HOME_INFO.URL)}
             sx={{
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
@@ -144,7 +122,7 @@ const Header: FC = () => {
                 PAGEINFO.VIEW && (
                   <Button
                     key={PAGEINFO.CONTEXT}
-                    onClick={() => navigate(PAGEINFO.URL)}
+                    onClick={() => menuOnClick(PAGEINFO.URL)}
                     sx={{ my: 2, color: "white", display: "block" }}
                   >
                     {PAGEINFO.CONTEXT}

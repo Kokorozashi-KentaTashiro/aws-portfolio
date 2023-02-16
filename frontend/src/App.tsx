@@ -1,16 +1,21 @@
-import './App.css';
-import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Amplify, Auth, Hub } from 'aws-amplify';
-import { amplifyConfig } from './constants/amplifyConfig';
+import "./App.css";
+import { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Amplify, Auth, Hub } from "aws-amplify";
+import { amplifyConfig } from "./constants/amplifyConfig";
 
-import { selectLoginInfo,  setUserId, fetchAsyncGetUserInfo } from 'ducks/auth/slice';
-import { LoginInfo } from 'ducks/auth/type';
-import Login from 'containers/Login';
-import { PAGEINFOS } from 'common/PAGES';
+import {
+  selectLoginInfo,
+  setUserId,
+  setEmail,
+  fetchAsyncGetUserInfo,
+} from "ducks/auth/slice";
+import { LoginInfo } from "ducks/auth/type";
+import Login from "containers/Login";
+import { PAGEINFOS } from "common/PAGES";
 import { AppDispatch } from "app/store";
-import UserRegist from 'containers/UserRegist';
+import UserRegist from "containers/UserRegist";
 
 Amplify.configure(amplifyConfig);
 
@@ -20,30 +25,34 @@ const App = () => {
   const loginInfo: LoginInfo = useSelector(selectLoginInfo);
 
   useEffect(() => {
-    Hub.listen('auth', ({ payload: { event, data } }) => {
+    Hub.listen("auth", ({ payload: { event, data } }) => {
       switch (event) {
-        case 'signIn':
-        case 'cognitoHostedUI':
-          getUser().then(userData => {
+        case "signIn":
+        case "cognitoHostedUI":
+          getUser().then((userData) => {
             dispatch(setUserId(userData.username));
+            dispatch(
+              setEmail(userData.signInUserSession.idToken.payload.email)
+            );
             dispatch(fetchAsyncGetUserInfo(userData.username));
           });
           break;
-        case 'signOut':
+        case "signOut":
           dispatch(setUserId(""));
+          dispatch(setEmail(""));
           break;
-        case 'signIn_failure':
-        case 'cognitoHostedUI_failure':
-          console.log('Sign in failure', data);
+        case "signIn_failure":
+        case "cognitoHostedUI_failure":
+          console.log("Sign in failure", data);
           break;
       }
     });
 
-    getUser().then(userData => {
-      dispatch(setUserId(userData.username))
+    getUser().then((userData) => {
+      dispatch(setUserId(userData.username));
+      dispatch(setEmail(userData.signInUserSession.idToken.payload.email));
       dispatch(fetchAsyncGetUserInfo(userData.username));
     });
-    
   }, [dispatch]);
 
   const getUser = async () => {
@@ -56,9 +65,9 @@ const App = () => {
       console.log(userData);
       return userData;
     } catch (e) {
-      return console.log('Not signed in');
+      return console.log("Not signed in");
     }
-  }
+  };
 
   return (
     <BrowserRouter>
@@ -67,7 +76,11 @@ const App = () => {
           <Routes>
             {PAGEINFOS.map((PAGEINFO) => {
               return (
-                <Route key={PAGEINFO.CONTEXT} path={PAGEINFO.URL} element={PAGEINFO.ELEMENT} />
+                <Route
+                  key={PAGEINFO.CONTEXT}
+                  path={PAGEINFO.URL}
+                  element={PAGEINFO.ELEMENT}
+                />
               );
             })}
           </Routes>
@@ -79,7 +92,7 @@ const App = () => {
       )}
     </BrowserRouter>
   );
-}
+};
 
 export default App;
 

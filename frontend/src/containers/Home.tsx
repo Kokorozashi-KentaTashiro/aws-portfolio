@@ -1,25 +1,11 @@
 import { FC } from "react";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { Auth } from "aws-amplify";
 
 import { Grid } from "@mui/material";
-import {
-  CommonContainer,
-  CommonBox,
-  CommonButton,
-} from "common/commonMaterial";
+import { CommonContainer, CommonBox } from "common/commonMaterial";
 
 import Layout from "../components/Layout";
-import { selectLoginInfo } from "ducks/auth/slice";
 
 const Home: FC = () => {
-  // Redux変数
-  const loginInfo = useSelector(selectLoginInfo);
-
-  // レンダリング時の処理
-  useEffect(() => {}, [loginInfo]);
-
   // 仮想DOM
   return (
     <>
@@ -27,11 +13,14 @@ const Home: FC = () => {
         <CommonContainer maxWidth="lg">
           <CommonBox>
             <Grid item xs={6}>
-              ユーザー名: {loginInfo.userId}
+              ホーム画面
             </Grid>
-            <CommonButton variant="contained" onClick={() => Auth.signOut()}>
-              ログアウト
-            </CommonButton>
+            <Grid item xs={6}>
+              システムのタイトル
+            </Grid>
+            <Grid item xs={6}>
+              システムの使い方を説明
+            </Grid>
           </CommonBox>
         </CommonContainer>
       </Layout>

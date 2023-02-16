@@ -10,6 +10,7 @@ export const EVENET_HTTP_PUT = "PUT";
 export const USERINFO_RESOURCE = "userInfo";
 export const TOURNAMENT_RESOURCE = "tournament";
 export const TOURNAMENTS_RESOURCE = "tournaments";
+export const APPLICATIONS_RESOURCE = "applications";
 
 export const TOURNAMENT_SORTKEY = "tournament";
 export const USERINFO_SORTKEY = "userInfo";

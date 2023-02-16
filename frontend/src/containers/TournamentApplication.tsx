@@ -1,4 +1,5 @@
-import { FC } from "react";
+import { FC, ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Layout from "components/Layout";
@@ -9,6 +10,12 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import Paper from "@mui/material/Paper";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+
+import { schools, schoolYears, sexies } from "common/constants";
 
 import {
   CommonContainer,
@@ -16,66 +23,46 @@ import {
   CommonTableCell,
   CommonButton,
 } from "common/commonMaterial";
+import { AppDispatch } from "app/store";
+
 import {
   selectTournamentApplicationInfo,
+  initTornamentApplicationState,
   addApplicationInfo,
   setLastName,
   setFirstName,
+  setSchool,
+  setSchoolYear,
+  setSex,
+  fetchAsyncPutApplications,
 } from "ducks/tournamentApplication/slice";
 import { TornamentApplicationInfo } from "ducks/tournamentApplication/type";
-import SelectBox from "common/SelectBox";
+import { selectTournamentDetailInfo } from "ducks/tournamentDetail/slice";
+import { TornamentDetailInfo } from "ducks/tournamentDetail/type";
+import { TOURNAMNTS_INFO } from "common/PAGES";
+import { setPage } from "ducks/effect/slice";
 
 const TournamentApplication: FC = () => {
   // 変数
+  const tornamentDetailInfo: TornamentDetailInfo = useSelector(
+    selectTournamentDetailInfo
+  );
   const tornamentApplicationsInfo: TornamentApplicationInfo[] = useSelector(
     selectTournamentApplicationInfo
   );
-  const dispatch = useDispatch();
-
-  const schools = [
-    {
-      index: 0,
-      label: "成田市立西中学校",
-    },
-    {
-      index: 1,
-      label: "栄中学校",
-    },
-    {
-      index: 2,
-      label: "私立和洋国府台中学校",
-    },
-  ];
-
-  const schoolYears = [
-    {
-      index: 0,
-      label: "1",
-    },
-    {
-      index: 1,
-      label: "2",
-    },
-    {
-      index: 2,
-      label: "3",
-    },
-  ];
-
-  const sexies = [
-    {
-      index: 0,
-      label: "男",
-    },
-    {
-      index: 1,
-      label: "女",
-    },
-  ];
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   // 関数
   const onClickApply = () => {
-    alert("API経由でDynamoDBに登録するよ～");
+    let args = {
+      tournamentName: tornamentDetailInfo.title,
+      tornamentApplicationsInfo: tornamentApplicationsInfo,
+    };
+    dispatch(fetchAsyncPutApplications(args));
+    dispatch(initTornamentApplicationState());
+    navigate(TOURNAMNTS_INFO.URL);
+    dispatch(setPage(TOURNAMNTS_INFO.URL));
   };
 
   const onClickIncrement = () => {
@@ -105,11 +92,11 @@ const TournamentApplication: FC = () => {
                         id="application-lastName"
                         variant="standard"
                         value={tornamentApplicationInfo.lastName}
-                        onChange={(e) => {
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           dispatch(
                             setLastName({
                               index: index,
-                              lastName: e.target.value,
+                              value: e.target.value,
                             })
                           );
                         }}
@@ -120,36 +107,93 @@ const TournamentApplication: FC = () => {
                         id="application-firstName"
                         variant="standard"
                         value={tornamentApplicationInfo.firstName}
-                        onChange={(e) => {
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
                           dispatch(
                             setFirstName({
                               index: index,
-                              firstName: e.target.value,
+                              value: e.target.value,
                             })
                           );
                         }}
                       />
                     </CommonTableCell>
                     <CommonTableCell align="left">
-                      <SelectBox
-                        minWidth={120}
-                        value={tornamentApplicationInfo.school}
-                        choices={schools}
-                      />
+                      <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120 }}
+                      >
+                        <InputLabel id="select"></InputLabel>
+                        <Select
+                          labelId="select"
+                          id="select"
+                          value={tornamentApplicationInfo.school}
+                          onChange={(e) => {
+                            dispatch(
+                              setSchool({ index: index, value: e.target.value })
+                            );
+                          }}
+                        >
+                          {schools.map((school, key) => (
+                            <MenuItem key={key} value={school.index}>
+                              {school.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </CommonTableCell>
                     <CommonTableCell align="left">
-                      <SelectBox
-                        minWidth={120}
-                        value={tornamentApplicationInfo.schoolYear}
-                        choices={schoolYears}
-                      />
+                      <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120 }}
+                      >
+                        <InputLabel id="select"></InputLabel>
+                        <Select
+                          labelId="select"
+                          id="select"
+                          value={tornamentApplicationInfo.schoolYear}
+                          onChange={(e) => {
+                            dispatch(
+                              setSchoolYear({
+                                index: index,
+                                value: e.target.value,
+                              })
+                            );
+                          }}
+                        >
+                          {schoolYears.map((schoolYear, key) => (
+                            <MenuItem key={key} value={schoolYear.index}>
+                              {schoolYear.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </CommonTableCell>
                     <CommonTableCell align="left">
-                      <SelectBox
-                        minWidth={120}
-                        value={tornamentApplicationInfo.sex}
-                        choices={sexies}
-                      />
+                      <FormControl
+                        variant="standard"
+                        sx={{ m: 1, minWidth: 120 }}
+                      >
+                        <InputLabel id="select"></InputLabel>
+                        <Select
+                          labelId="select"
+                          id="select"
+                          value={tornamentApplicationInfo.sex}
+                          onChange={(e) => {
+                            dispatch(
+                              setSex({
+                                index: index,
+                                value: e.target.value,
+                              })
+                            );
+                          }}
+                        >
+                          {sexies.map((sex, key) => (
+                            <MenuItem key={key} value={sex.index}>
+                              {sex.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
                     </CommonTableCell>
                   </CommonTableRow>
                 )

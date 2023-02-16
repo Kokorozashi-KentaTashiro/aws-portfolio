@@ -12,8 +12,8 @@ import { TournamentRegistState, TornamentRegistInfo } from "./type";
 import { API_NAME, TOURNAMENT_RESOURCE } from "common/constants";
 
 // 非同期処理の関数作成
-export const fetchAsyncPostTournament = createAsyncThunk(
-  "tournament/put",
+export const fetchAsyncPutTournament = createAsyncThunk(
+  `${TOURNAMENT_RESOURCE}/put`,
   async (tournamentRegistInfo: TornamentRegistInfo, thunkAPI) => {
     const req = {
       body: {
@@ -37,6 +37,11 @@ export const tournamentRegistSlice = createSlice({
   name: "tournamentRegist",
   initialState,
   reducers: {
+    initTournamentRegistState(state: TournamentRegistState) {
+      return {
+        ...initialState,
+      };
+    },
     setTitle(state: TournamentRegistState, action) {
       return {
         ...state,
@@ -86,27 +91,26 @@ export const tournamentRegistSlice = createSlice({
   extraReducers(builder: ActionReducerMapBuilder<TournamentRegistState>) {
     builder
       .addCase(
-        fetchAsyncPostTournament.fulfilled,
+        fetchAsyncPutTournament.fulfilled,
         (state: TournamentRegistState, action: PayloadAction<any>) => {
-          console.log(action.payload);
+          console.log("tournamentRegist/fetchAsyncPutTournament：fulfilled");
         }
       )
       .addCase(
-        fetchAsyncPostTournament.rejected,
+        fetchAsyncPutTournament.rejected,
         (state: TournamentRegistState, action: PayloadAction<any>) => {
-          console.log(action.payload);
+          console.log("tournamentRegist/fetchAsyncPutTournament：rejected");
         }
       )
       .addCase(
-        fetchAsyncPostTournament.pending,
-        (state: TournamentRegistState, action: PayloadAction<any>) => {
-          console.log("loading");
-        }
+        fetchAsyncPutTournament.pending,
+        (state: TournamentRegistState, action: PayloadAction<any>) => {}
       );
   },
 });
 
 export const {
+  initTournamentRegistState,
   setTitle,
   setEventDate,
   setPlace,

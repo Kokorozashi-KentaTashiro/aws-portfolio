@@ -3,12 +3,15 @@ import {
   USERINFO_RESOURCE,
   TOURNAMENT_RESOURCE,
   TOURNAMENTS_RESOURCE,
+  APPLICATIONS_RESOURCE,
   EVENET_HTTP_POST,
 } from "./common/constants";
 import { getUserInfo } from "./userInfo/getUserInfo";
 import { putTournament } from "./tournament/putTournament";
 import { getTournaments } from "./tournaments/getTournaments";
 import { putUserInfo } from "./userInfo/putUserInfo";
+import { putApplications } from "./applications/putApplications";
+import { getApplications } from "./applications/getApplications";
 
 // https://abillyz.com/vclbuff/studies/352
 // npm run buildで「./build/*」以外をビルドするように設定
@@ -48,6 +51,15 @@ export const handler = async (event: APIGatewayEvent) => {
     case `/${TOURNAMENTS_RESOURCE}`:
       response = await getTournaments();
       break;
+
+    case `/${APPLICATIONS_RESOURCE}`:
+      if (httpMethod === EVENET_HTTP_POST) {
+        response = await getApplications(reqBody);
+      } else {
+        response = await putApplications(reqBody);
+      }
+      break;
+
     default:
       throw "not found evenet resource;";
   }

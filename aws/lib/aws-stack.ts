@@ -7,8 +7,7 @@ import * as cognito from "aws-cdk-lib/aws-cognito";
 import * as apigateway from "aws-cdk-lib/aws-apigateway";
 import * as lambda from "aws-cdk-lib/aws-lambda";
 import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
-import * as ses from "aws-cdk-lib/aws-ses";
-import * as route53 from "aws-cdk-lib/aws-route53";
+import * as iam from "aws-cdk-lib/aws-iam";
 
 import * as path from "path";
 
@@ -16,10 +15,11 @@ import {
   GLOBAL_INDEX_SORTKEY_EVENTDATE,
   EVENET_HTTP_GET,
   EVENET_HTTP_POST,
+  EVENET_HTTP_PUT,
   USERINFO_RESOURCE,
   TOURNAMENT_RESOURCE,
   TOURNAMENTS_RESOURCE,
-  EVENET_HTTP_PUT,
+  APPLICATIONS_RESOURCE,
 } from "../lambda/common/constants";
 
 export class AwsStack extends cdk.Stack {
@@ -96,6 +96,27 @@ export class AwsStack extends cdk.Stack {
       sortKey: { name: "eventDate", type: dynamodb.AttributeType.STRING },
     });
 
+    // Lambda実行用のIAMロールを作成（CloudWatch, DynamoDB, SES）
+    // https://qiita.com/yamato1491038/items/6a3eb65688389a5d6e31
+    const lambdaRole = new iam.Role(this, "tashiroCdkLamdbaRole", {
+      roleName: "tashiro-cdk-lamdba-role",
+      assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
+    });
+    lambdaRole.addManagedPolicy(
+      iam.ManagedPolicy.fromManagedPolicyArn(
+        this,
+        "AWSLambdaBasicExecutionRole",
+        "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      )
+    );
+    lambdaRole.addManagedPolicy(
+      iam.ManagedPolicy.fromManagedPolicyArn(
+        this,
+        "AmazonSESFullAccess",
+        "arn:aws:iam::aws:policy/AmazonSESFullAccess"
+      )
+    );
+
     // Lambda： Layer作成
     // https://dev.classmethod.jp/articles/aws-cdk-node-modules-lambda-layer/
     const lambdaLayer = new lambda.LayerVersion(this, "tashiroCdkLambdaLayer", {
@@ -119,6 +140,7 @@ export class AwsStack extends cdk.Stack {
           TABLE_NAME: "tashiro-cdk-table",
           PRIMARY_KEY: "partitionKey",
         },
+        role: lambdaRole,
       }
     );
 
@@ -145,6 +167,9 @@ export class AwsStack extends cdk.Stack {
     const userInfoResource = restApi.root.addResource(USERINFO_RESOURCE);
     const tournamentResource = restApi.root.addResource(TOURNAMENT_RESOURCE);
     const tournamentsResource = restApi.root.addResource(TOURNAMENTS_RESOURCE);
+    const applicationsResource = restApi.root.addResource(
+      APPLICATIONS_RESOURCE
+    );
 
     // ApiGateway: メソッド作成
     userInfoResource.addMethod(
@@ -163,11 +188,13 @@ export class AwsStack extends cdk.Stack {
       EVENET_HTTP_GET,
       new apigateway.LambdaIntegration(lambdaFunction)
     );
-
-    const sesId = new ses.EmailIdentity(this, "tashiroCdkSesIdentity", {
-      identity: {
-        value: "kenta.tashiro@kokorozashi-japan.co.jp",
-      },
-    });
+    applicationsResource.addMethod(
+      EVENET_HTTP_POST,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    applicationsResource.addMethod(
+      EVENET_HTTP_PUT,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
   }
 }
