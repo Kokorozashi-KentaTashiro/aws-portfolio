@@ -46,6 +46,13 @@ export class AwsStack extends cdk.Stack {
       signInAliases: {
         email: true,
       },
+      selfSignUpEnabled: true,
+      userVerification: {
+        emailSubject: "【千葉卓球連盟】ユーザー認証",
+        emailBody:
+          "このたびは千葉県卓球連盟アプリにご登録いただきありがとうございます。\r\nこのメールの認証コードをブラウザ画面に入力して会員登録を完了してください。\r\n認証コード： {####}",
+        emailStyle: cognito.VerificationEmailStyle.CODE,
+      },
     });
 
     const userPoolClient = new cognito.UserPoolClient(

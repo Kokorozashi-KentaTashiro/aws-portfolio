@@ -40,11 +40,6 @@ export const tournamentApplicationSlice = createSlice({
   name: "tournamentApplication",
   initialState,
   reducers: {
-    initTornamentApplicationState(state: TornamentApplicationState) {
-      return {
-        ...initialState,
-      };
-    },
     addApplicationInfo(state: TornamentApplicationState) {
       state.tornamentApplicationsInfo.push({
         lastName: "",
@@ -79,7 +74,6 @@ export const tournamentApplicationSlice = createSlice({
         state.tornamentApplicationsInfo[action.payload.index];
       tornamentApplicationInfo.sex = action.payload.value;
     },
-
     setApplicationInfo(state: TornamentApplicationState, action) {
       return {
         ...state,
@@ -92,9 +86,9 @@ export const tournamentApplicationSlice = createSlice({
       .addCase(
         fetchAsyncPutApplications.fulfilled,
         (state: TornamentApplicationState, action: PayloadAction<any>) => {
-          console.log(
-            "tournamentApplication/fetchAsyncPutApplications：fulfilled"
-          );
+          return {
+            ...initialState,
+          };
         }
       )
       .addCase(
@@ -113,7 +107,6 @@ export const tournamentApplicationSlice = createSlice({
 });
 
 export const {
-  initTornamentApplicationState,
   addApplicationInfo,
   setLastName,
   setFirstName,

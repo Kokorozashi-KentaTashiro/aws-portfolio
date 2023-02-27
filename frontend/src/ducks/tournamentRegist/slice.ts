@@ -18,6 +18,7 @@ export const fetchAsyncPutTournament = createAsyncThunk(
     const req = {
       body: {
         title: tournamentRegistInfo.title,
+        class: tournamentRegistInfo.class,
         eventDate: tournamentRegistInfo.eventDate,
         place: tournamentRegistInfo.place,
         applicationStartDate: tournamentRegistInfo.applicationStartDate,
@@ -48,6 +49,15 @@ export const tournamentRegistSlice = createSlice({
         tournamentRegistInfo: {
           ...state.tournamentRegistInfo,
           title: action.payload,
+        },
+      };
+    },
+    setClass(state: TournamentRegistState, action) {
+      return {
+        ...state,
+        tournamentRegistInfo: {
+          ...state.tournamentRegistInfo,
+          class: action.payload,
         },
       };
     },
@@ -112,6 +122,7 @@ export const tournamentRegistSlice = createSlice({
 export const {
   initTournamentRegistState,
   setTitle,
+  setClass,
   setEventDate,
   setPlace,
   setApplicationStartDate,

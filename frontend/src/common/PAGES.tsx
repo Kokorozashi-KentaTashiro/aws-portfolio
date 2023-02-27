@@ -54,7 +54,7 @@ export const TOURNAMNT_APPLICATION_INFO: PageInfo = {
 };
 
 export const OTHER_INFO: PageInfo = {
-  CONTEXT: "その他",
+  CONTEXT: "動作確認",
   URL: "/other",
   ELEMENT: <Other />,
   VIEW: true,

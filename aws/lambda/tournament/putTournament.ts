@@ -13,6 +13,7 @@ export const putTournament = async (body: any) => {
         Item: {
           partitionKey: body.title,
           sortKey: TOURNAMENT_SORTKEY,
+          class: body.class,
           eventDate: body.eventDate,
           place: body.place,
           applicationStartDate: body.applicationStartDate,

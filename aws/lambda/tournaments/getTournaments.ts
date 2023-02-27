@@ -37,6 +37,7 @@ export const getTournaments = async () => {
   const result = queryResults.Items.map((queryResult: any) => {
     return {
       title: queryResult.partitionKey,
+      class: queryResult.class,
       eventDate: queryResult.eventDate,
       place: queryResult.place,
       applicationStartDate: queryResult.applicationStartDate,

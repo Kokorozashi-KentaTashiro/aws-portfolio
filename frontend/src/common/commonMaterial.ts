@@ -4,9 +4,13 @@ import { Box } from "@mui/material";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
+import { Link } from "@mui/material";
 
 import emotionStyled from "@emotion/styled";
 
+export const CommonLink = emotionStyled(Link)`
+    cursor: pointer;
+`;
 export const CommonButton = emotionStyled(Button)`
     text-transform: none;
     background-color: var(--primary-color);

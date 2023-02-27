@@ -1,8 +1,20 @@
 import { AuthState } from "./type";
 export const initialState: AuthState = {
-  loginInfo: {
+  signInInfo: {
+    email: "",
+    password: "",
     userId: "",
-    userInfoStatus: false,
+    signInStatus: false,
+  },
+  signUpInfo: {
+    userId: "",
+    familiyName: "",
+    givenName: "",
+    email: "",
+    phone: "",
+    password: "",
+    verifyCode: "",
+    createStatus: false,
   },
 
   userInfo: {

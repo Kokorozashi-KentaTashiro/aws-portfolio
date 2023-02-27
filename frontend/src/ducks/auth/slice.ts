@@ -54,11 +54,17 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    // 共通
+    initAuthState(state: AuthState) {
+      return {
+        ...initialState,
+      };
+    },
     setUserId(state: AuthState, action) {
       return {
         ...state,
-        loginInfo: {
-          ...state.loginInfo,
+        signInInfo: {
+          ...state.signInInfo,
           userId: action.payload,
         },
         userInfo: {
@@ -68,7 +74,8 @@ export const authSlice = createSlice({
         },
       };
     },
-    setLastName(state: AuthState, action) {
+    // UserInfo
+    setUserInfoLastName(state: AuthState, action) {
       return {
         ...state,
         userInfo: {
@@ -77,7 +84,7 @@ export const authSlice = createSlice({
         },
       };
     },
-    setFirstName(state: AuthState, action) {
+    setUserInfoFirstName(state: AuthState, action) {
       return {
         ...state,
         userInfo: {
@@ -86,7 +93,7 @@ export const authSlice = createSlice({
         },
       };
     },
-    setEmail(state: AuthState, action) {
+    setUserInfoEmail(state: AuthState, action) {
       return {
         ...state,
         userInfo: {
@@ -95,12 +102,120 @@ export const authSlice = createSlice({
         },
       };
     },
-    setPhone(state: AuthState, action) {
+    setUserInfoPhone(state: AuthState, action) {
       return {
         ...state,
         userInfo: {
           ...state.userInfo,
           phone: action.payload,
+        },
+      };
+    },
+    // SignInInfo
+    initSignInInfo(state: AuthState) {
+      return {
+        ...state,
+        signInInfo: {
+          ...initialState.signInInfo,
+        },
+      };
+    },
+    setSignInEmail(state: AuthState, action) {
+      return {
+        ...state,
+        signInInfo: {
+          ...state.signInInfo,
+          email: action.payload,
+        },
+      };
+    },
+    setSignInPassword(state: AuthState, action) {
+      return {
+        ...state,
+        signInInfo: {
+          ...state.signInInfo,
+          password: action.payload,
+        },
+      };
+    },
+    // SignUpInfo
+    setSignUpUserId(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          userId: action.payload,
+        },
+      };
+    },
+    initSignUpInfo(state: AuthState) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...initialState.signUpInfo,
+        },
+      };
+    },
+    setSignUpFamiliyName(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          familiyName: action.payload,
+        },
+      };
+    },
+    setSignUpGivenName(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          givenName: action.payload,
+        },
+      };
+    },
+    setSignUpEmail(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          email: action.payload,
+        },
+      };
+    },
+    setSignUpPhone(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          phone: action.payload,
+        },
+      };
+    },
+    setSignUpPassword(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          password: action.payload,
+        },
+      };
+    },
+    setSignUpVerifyCode(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          verifyCode: action.payload,
+        },
+      };
+    },
+    setSignUpCreateStatus(state: AuthState, action) {
+      return {
+        ...state,
+        signUpInfo: {
+          ...state.signUpInfo,
+          createStatus: action.payload,
         },
       };
     },
@@ -123,9 +238,9 @@ export const authSlice = createSlice({
 
           return {
             ...state,
-            loginInfo: {
-              ...state.loginInfo,
-              userInfoStatus: judgeStatus,
+            signInInfo: {
+              ...state.signInInfo,
+              signInStatus: judgeStatus,
             },
             userInfo: {
               ...state.userInfo,
@@ -155,8 +270,8 @@ export const authSlice = createSlice({
           console.log("auth/fetchAsyncPutUserInfo：fulfilled");
           return {
             ...state,
-            loginInfo: {
-              ...state.loginInfo,
+            signInInfo: {
+              ...state.signInInfo,
               userInfoStatus: true,
             },
           };
@@ -176,9 +291,28 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setUserId, setLastName, setFirstName, setEmail, setPhone } =
-  authSlice.actions;
+export const {
+  initAuthState,
+  setUserId,
+  setUserInfoLastName,
+  setUserInfoFirstName,
+  setUserInfoEmail,
+  setUserInfoPhone,
+  initSignInInfo,
+  setSignInEmail,
+  setSignInPassword,
+  initSignUpInfo,
+  setSignUpUserId,
+  setSignUpFamiliyName,
+  setSignUpGivenName,
+  setSignUpEmail,
+  setSignUpPhone,
+  setSignUpPassword,
+  setSignUpVerifyCode,
+  setSignUpCreateStatus,
+} = authSlice.actions;
 
-export const selectLoginInfo = (state: RootState) => state.auth.loginInfo;
+export const selectSignInInfo = (state: RootState) => state.auth.signInInfo;
+export const selectSignUpInfo = (state: RootState) => state.auth.signUpInfo;
 export const selectUserInfo = (state: RootState) => state.auth.userInfo;
 export default authSlice.reducer;

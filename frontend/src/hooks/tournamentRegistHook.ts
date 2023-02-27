@@ -1,4 +1,5 @@
 import { ChangeEvent } from "react";
+import { SelectChangeEvent } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Dayjs } from "dayjs";
@@ -8,6 +9,7 @@ import {
   initTournamentRegistState,
   selectTournamentRegistInfo,
   setTitle,
+  setClass,
   setEventDate,
   setPlace,
   setApplicationStartDate,
@@ -58,6 +60,10 @@ export const useTournamentRegistHook = () => {
     dispatch(setTitle(e.target.value));
   };
 
+  const changeClassVal = (e: SelectChangeEvent<number>) => {
+    dispatch(setClass(e.target.value));
+  };
+
   const changePlaceVal = (e: ChangeEvent<HTMLInputElement>) => {
     dispatch(setPlace(e.target.value));
   };
@@ -76,6 +82,7 @@ export const useTournamentRegistHook = () => {
     changeApplicationStartDate,
     changeApplicationEndDate,
     changeTitleVal,
+    changeClassVal,
     changePlaceVal,
     onClickConfirm,
   };

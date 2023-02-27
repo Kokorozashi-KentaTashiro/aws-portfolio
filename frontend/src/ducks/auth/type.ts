@@ -1,13 +1,27 @@
 export type AuthState = {
-  /** ログインユーザ情報 */
-  loginInfo: LoginInfo;
+  signInInfo: SignInInfo;
+  signUpInfo: SignUpInfo;
   userInfo: UserInfo;
 };
 
-/** ログイン情報 */
-export type LoginInfo = {
+/** SignIn情報 */
+export type SignInInfo = {
+  email: string;
+  password: string;
   userId: string;
-  userInfoStatus: boolean;
+  signInStatus: boolean;
+};
+
+/** SignUp情報 */
+export type SignUpInfo = {
+  userId: string;
+  familiyName: string;
+  givenName: string;
+  email: string;
+  phone: string;
+  password: string;
+  verifyCode: string;
+  createStatus: boolean;
 };
 
 /** ユーザ情報 */

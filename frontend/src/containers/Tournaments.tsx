@@ -8,6 +8,8 @@ import { CommonContainer, CommonButton } from "common/commonMaterial";
 import { fetchAsyncGetTournaments } from "ducks/tournaments/slice";
 import { useTournamentsHook } from "hooks/tournamentsHook";
 
+import { tournamentClasses } from "common/constants";
+
 export const TournamntCard = styled(Card)`
   width: 100%;
   min-height: 200px;
@@ -34,9 +36,12 @@ const Tournaments: FC = () => {
             return (
               <TournamntCard variant="outlined">
                 <CardContent onClick={() => onClickCard(tournamentInfo)}>
-                  <p>{tournamentInfo.title}</p>
-                  <p>{tournamentInfo.eventDate}</p>
-                  <p>{tournamentInfo.place}</p>
+                  <p>タイトル：{tournamentInfo.title}</p>
+                  <p>
+                    大会区分：{tournamentClasses[tournamentInfo.class].label}
+                  </p>
+                  <p>開催日：{tournamentInfo.eventDate}</p>
+                  <p>開催場所：{tournamentInfo.place}</p>
                   {todayDate > new Date(tournamentInfo.applicationEndDate) ? (
                     <p>受付終了</p>
                   ) : todayDate <

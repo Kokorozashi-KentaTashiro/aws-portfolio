@@ -10,6 +10,21 @@ export const TOURNAMENTS_RESOURCE = "/tournaments";
 export const APPLICATIONS_RESOURCE = "/applications";
 
 // プルダウン
+export const tournamentClasses = [
+  {
+    index: 0,
+    label: "団体",
+  },
+  {
+    index: 1,
+    label: "シングルス",
+  },
+  {
+    index: 2,
+    label: "ダブルス",
+  },
+];
+
 export const schools = [
   {
     index: 0,
