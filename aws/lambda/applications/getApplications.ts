@@ -2,7 +2,7 @@ import * as AWS from "aws-sdk";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 import {
   TABLE_NAME,
-  GLOBAL_INDEX_SORTKEY_EVENTDATE,
+  GSI_SORTKEY_EVENTDATE,
   TOURNAMENT_SORTKEY,
 } from "../common/constants";
 
@@ -12,7 +12,7 @@ export const getApplications = async (body: any) => {
   const queryResults: any = await dynamodb
     .query({
       TableName: TABLE_NAME,
-      IndexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
+      IndexName: GSI_SORTKEY_EVENTDATE,
       ExpressionAttributeNames: {
         "#sk": "sortKey",
       },
@@ -25,7 +25,7 @@ export const getApplications = async (body: any) => {
 
   const result = queryResults.Items.map((queryResult: any) => {
     return {
-      title: queryResult.partitionKey,
+      tournamentTitle: queryResult.partitionKey,
       eventDate: queryResult.eventDate,
       place: queryResult.place,
       applicationStartDate: queryResult.applicationStartDate,

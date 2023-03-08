@@ -5,6 +5,7 @@ import tournamentsReducer from "ducks/tournaments/slice";
 import tournamentRegistReducer from "ducks/tournamentRegist/slice";
 import tournamentDetailReducer from "ducks/tournamentDetail/slice";
 import tournamentApplicationReducer from "ducks/tournamentApplication/slice";
+import applicationsReducer from "ducks/applications/slice";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     tournamentRegist: tournamentRegistReducer,
     tournamentDetail: tournamentDetailReducer,
     tournamentApplication: tournamentApplicationReducer,
+    applications: applicationsReducer,
   },
 });
 

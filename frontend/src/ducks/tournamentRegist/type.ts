@@ -4,8 +4,8 @@ export type TournamentRegistState = {
 
 /** 大会登録情報 */
 export type TornamentRegistInfo = {
-  title: string;
-  class: number;
+  tournamentTitle: string;
+  tournamentClass: number;
   eventDate: string;
   place: string;
   applicationStartDate: string;

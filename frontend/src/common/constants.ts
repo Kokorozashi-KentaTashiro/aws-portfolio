@@ -8,12 +8,15 @@ export const USERINFO_RESOURCE = "/userInfo";
 export const TOURNAMENT_RESOURCE = "/tournament";
 export const TOURNAMENTS_RESOURCE = "/tournaments";
 export const APPLICATIONS_RESOURCE = "/applications";
+export const SINGLES_APPLICATIONS_RESOURCE = "/singlesApplications";
+export const TEAM_APPLICATIONS_RESOURCE = "/teamApplications";
+export const TEAMS_RESOURCE = "/teams";
 
 // プルダウン
 export const tournamentClasses = [
   {
     index: 0,
-    label: "団体",
+    label: "団体戦",
   },
   {
     index: 1,
@@ -25,18 +28,33 @@ export const tournamentClasses = [
   },
 ];
 
-export const schools = [
+export const teams = [
   {
     index: 0,
-    label: "成田市立西中学校",
+    label: "学校１",
   },
   {
     index: 1,
-    label: "栄中学校",
+    label: "チーム２",
   },
   {
     index: 2,
-    label: "私立和洋国府台中学校",
+    label: "学校３",
+  },
+];
+
+export const zones = [
+  {
+    index: 0,
+    label: "地区１",
+  },
+  {
+    index: 1,
+    label: "支部２",
+  },
+  {
+    index: 2,
+    label: "地区３",
   },
 ];
 
@@ -58,10 +76,10 @@ export const schoolYears = [
 export const sexies = [
   {
     index: 0,
-    label: "男",
+    label: "男子",
   },
   {
     index: 1,
-    label: "女",
+    label: "女子",
   },
 ];

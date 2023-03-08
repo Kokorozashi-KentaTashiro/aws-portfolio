@@ -6,6 +6,7 @@ import TournamentRegist from "containers/TournamentRegist";
 import TournamentDetail from "containers/TournamentDetail";
 import TournamentApplication from "containers/TournamentApplication";
 import Other from "containers/Other";
+import Applications from "containers/Applications";
 
 // 型定義
 type PageInfo = {
@@ -53,6 +54,13 @@ export const TOURNAMNT_APPLICATION_INFO: PageInfo = {
   VIEW: false,
 };
 
+export const APPLICATIONS_VIEW_INFO: PageInfo = {
+  CONTEXT: "参加者一覧",
+  URL: "/applications",
+  ELEMENT: <Applications />,
+  VIEW: false,
+};
+
 export const OTHER_INFO: PageInfo = {
   CONTEXT: "動作確認",
   URL: "/other",
@@ -67,5 +75,6 @@ export const PAGEINFOS: PageInfo[] = [
   TOURNAMNT_REGIST_INFO,
   TOURNAMNT_DETAIL_INFO,
   TOURNAMNT_APPLICATION_INFO,
+  APPLICATIONS_VIEW_INFO,
   OTHER_INFO,
 ];

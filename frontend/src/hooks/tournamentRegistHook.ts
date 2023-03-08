@@ -8,8 +8,8 @@ import { TornamentRegistInfo } from "ducks/tournamentRegist/type";
 import {
   initTournamentRegistState,
   selectTournamentRegistInfo,
-  setTitle,
-  setClass,
+  setTournamentTitle,
+  setTournamentClass,
   setEventDate,
   setPlace,
   setApplicationStartDate,
@@ -57,11 +57,11 @@ export const useTournamentRegistHook = () => {
   };
 
   const changeTitleVal = (e: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setTitle(e.target.value));
+    dispatch(setTournamentTitle(e.target.value));
   };
 
   const changeClassVal = (e: SelectChangeEvent<number>) => {
-    dispatch(setClass(e.target.value));
+    dispatch(setTournamentClass(e.target.value));
   };
 
   const changePlaceVal = (e: ChangeEvent<HTMLInputElement>) => {

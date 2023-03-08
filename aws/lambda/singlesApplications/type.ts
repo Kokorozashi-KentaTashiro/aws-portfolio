@@ -1,14 +1,5 @@
-export type TornamentApplicationState = {
-  tournamentTitle: string;
-  tournamentClass: number;
-  teamInfo: TeamInfo;
-  directerInfo: DirecterInfo;
-  singlesApplicationsInfo: SinglesApplicationInfo[];
-  teamApplicationsInfo: TeamApplicationInfo[];
-};
-
 /** チーム情報 */
-export type TeamInfo = {
+export type TeamDetailInfo = {
   team: number;
   teamZone: number;
   teamSex: number;
@@ -34,11 +25,9 @@ export type SinglesApplicationInfo = {
   birthDay: string;
 };
 
-/** 団体戦応募情報 */
-export type TeamApplicationInfo = {
-  lastName: string;
-  firstName: string;
-  schoolYear: number;
-  birthDay: string;
-  captain: boolean;
+/** 参加者情報グループ */
+export type ApplicantGroupInfo = {
+  teamDetailInfo: TeamDetailInfo;
+  directerInfo: DirecterInfo;
+  singlesApplicationsInfo: SinglesApplicationInfo[];
 };

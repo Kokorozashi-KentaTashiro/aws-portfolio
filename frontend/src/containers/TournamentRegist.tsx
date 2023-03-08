@@ -37,7 +37,7 @@ const TournamentRegist: FC = () => {
               id="tournament-title"
               label="大会名"
               variant="standard"
-              value={tournamentRegistInfo.title}
+              value={tournamentRegistInfo.tournamentTitle}
               onChange={changeTitleVal}
               sx={{ m: 1, width: { xs: 200, md: 300 } }}
             />
@@ -51,7 +51,7 @@ const TournamentRegist: FC = () => {
                 labelId="select"
                 id="select"
                 label="大会区分"
-                value={tournamentRegistInfo.class}
+                value={tournamentRegistInfo.tournamentClass}
                 onChange={changeClassVal}
               >
                 {tournamentClasses.map((tournamentClass, key) => (

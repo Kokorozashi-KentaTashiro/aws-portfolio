@@ -24,8 +24,9 @@ const Tournaments: FC = () => {
 
   // useEffect
   useEffect(() => {
-    console.log("Tournaments：rendering");
-    dispatch(fetchAsyncGetTournaments());
+    (async () => {
+      await dispatch(fetchAsyncGetTournaments());
+    })();
   }, [page, dispatch]);
 
   return (
@@ -36,9 +37,10 @@ const Tournaments: FC = () => {
             return (
               <TournamntCard variant="outlined">
                 <CardContent onClick={() => onClickCard(tournamentInfo)}>
-                  <p>タイトル：{tournamentInfo.title}</p>
+                  <p>タイトル：{tournamentInfo.tournamentTitle}</p>
                   <p>
-                    大会区分：{tournamentClasses[tournamentInfo.class].label}
+                    大会区分：
+                    {tournamentClasses[tournamentInfo.tournamentClass].label}
                   </p>
                   <p>開催日：{tournamentInfo.eventDate}</p>
                   <p>開催場所：{tournamentInfo.place}</p>

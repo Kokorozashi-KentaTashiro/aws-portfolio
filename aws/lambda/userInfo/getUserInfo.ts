@@ -4,7 +4,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 import { TABLE_NAME, USERINFO_SORTKEY } from "../common/constants";
 
 export const getUserInfo = async (body: any) => {
-  console.log("【getUserInfo/start】");
+  console.log("getUserInfo.ts/開始");
   const queryResult: any = await dynamodb
     .get(
       {
@@ -16,9 +16,9 @@ export const getUserInfo = async (body: any) => {
       },
       (err, res) => {
         if (err) {
-          console.log(`【getUserInfo/error】${err}`);
+          console.log("getUserInfo.ts/ユーザー情報取得エラー");
         } else {
-          console.log(`【getUserInfo/success】${res}`);
+          console.log("getUserInfo.ts/ユーザー情報取得完了");
         }
       }
     )
@@ -46,5 +46,6 @@ export const getUserInfo = async (body: any) => {
     };
   }
 
+  console.log("getUserInfo.ts/終了");
   return result;
 };

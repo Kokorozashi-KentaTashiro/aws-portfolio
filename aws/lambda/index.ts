@@ -1,21 +1,29 @@
+import console = require("console");
 import { APIGatewayEvent } from "aws-lambda";
 import {
   USERINFO_RESOURCE,
   TOURNAMENT_RESOURCE,
   TOURNAMENTS_RESOURCE,
-  APPLICATIONS_RESOURCE,
+  TEAMS_RESOURCE,
+  SINGLES_APPLICATIONS_RESOURCE,
+  TEAM_APPLICATIONS_RESOURCE,
   EVENET_HTTP_POST,
 } from "./common/constants";
 import { getUserInfo } from "./userInfo/getUserInfo";
 import { putTournament } from "./tournament/putTournament";
 import { getTournaments } from "./tournaments/getTournaments";
 import { putUserInfo } from "./userInfo/putUserInfo";
-import { putApplications } from "./applications/putApplications";
 import { getApplications } from "./applications/getApplications";
+import { putSinglesApplications } from "./singlesApplications/putSinglesApplications";
+import { putTeamApplications } from "./teamApplications/putTeamApplications";
+import { getTeams } from "./teams/getTeams";
+import { getSinglesApplications } from "./singlesApplications/getSinglesApplications";
+import { getTeamApplications } from "./teamApplications/getTeamApplications";
 
 // https://abillyz.com/vclbuff/studies/352
 // npm run buildで「./build/*」以外をビルドするように設定
 export const handler = async (event: APIGatewayEvent) => {
+  console.log(`index.ts${event.resource}/${event.httpMethod}開始`);
   // requestBodyの取得
   let reqBody;
   if (event.body) {
@@ -52,18 +60,31 @@ export const handler = async (event: APIGatewayEvent) => {
       response = await getTournaments();
       break;
 
-    case `/${APPLICATIONS_RESOURCE}`:
+    case `/${SINGLES_APPLICATIONS_RESOURCE}`:
       if (httpMethod === EVENET_HTTP_POST) {
-        response = await getApplications(reqBody);
+        response = await getSinglesApplications(reqBody);
       } else {
-        response = await putApplications(reqBody);
+        response = await putSinglesApplications(reqBody);
       }
+      break;
+
+    case `/${TEAM_APPLICATIONS_RESOURCE}`:
+      if (httpMethod === EVENET_HTTP_POST) {
+        response = await getTeamApplications(reqBody);
+      } else {
+        response = await putTeamApplications(reqBody);
+      }
+      break;
+
+    case `/${TEAMS_RESOURCE}`:
+      response = await getTeams(reqBody);
       break;
 
     default:
       throw "not found evenet resource;";
   }
 
+  console.log(`index.ts${event.resource}/${event.httpMethod}終了`);
   // return
   return {
     statusCode,

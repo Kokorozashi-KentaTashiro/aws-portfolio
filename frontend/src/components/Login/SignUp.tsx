@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Auth } from "aws-amplify";
 import { useDispatch, useSelector } from "react-redux";
 
-import { CommonBox, CommonButton } from "common/commonMaterial";
+import { CommonButton } from "common/commonMaterial";
 import { TextField } from "@mui/material";
 import { Card } from "@mui/material";
 

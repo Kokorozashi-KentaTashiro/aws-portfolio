@@ -3,19 +3,19 @@ import * as AWS from "aws-sdk";
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 import {
   TABLE_NAME,
-  GLOBAL_INDEX_SORTKEY_EVENTDATE,
+  GSI_SORTKEY_EVENTDATE,
   TOURNAMENT_SORTKEY,
 } from "../common/constants";
 
 export const getTournaments = async () => {
   // DynamoDBレコード検索
   // https://qiita.com/sayama0402/items/fc7ce074f1f1747b1bef
-  console.log("【getTournaments/start】");
+  console.log("getTournaments.ts/開始");
   const queryResults: any = await dynamodb
     .query(
       {
         TableName: TABLE_NAME,
-        IndexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
+        IndexName: GSI_SORTKEY_EVENTDATE,
         ExpressionAttributeNames: {
           "#sk": "sortKey",
         },
@@ -26,9 +26,9 @@ export const getTournaments = async () => {
       },
       (err, res) => {
         if (err) {
-          console.log(`【getTournaments/error】${err}`);
+          console.log("getTournaments.ts/大会一覧取得エラー");
         } else {
-          console.log(`【getTournaments/success】${res}`);
+          console.log("getTournaments.ts/大会一覧取得完了");
         }
       }
     )
@@ -36,8 +36,8 @@ export const getTournaments = async () => {
 
   const result = queryResults.Items.map((queryResult: any) => {
     return {
-      title: queryResult.partitionKey,
-      class: queryResult.class,
+      tournamentTitle: queryResult.partitionKey,
+      tournamentClass: queryResult.tournamentClass,
       eventDate: queryResult.eventDate,
       place: queryResult.place,
       applicationStartDate: queryResult.applicationStartDate,
@@ -45,5 +45,6 @@ export const getTournaments = async () => {
     };
   });
 
+  console.log("getTournaments.ts/終了");
   return result;
 };

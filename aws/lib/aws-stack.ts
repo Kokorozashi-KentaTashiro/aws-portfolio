@@ -12,7 +12,10 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as path from "path";
 
 import {
-  GLOBAL_INDEX_SORTKEY_EVENTDATE,
+  GSI_SORTKEY,
+  GSI_SORTKEY_PARTITIONKEY,
+  GSI_SORTKEY_EVENTDATE,
+  GSI_SORTKEY_ORDER,
   EVENET_HTTP_GET,
   EVENET_HTTP_POST,
   EVENET_HTTP_PUT,
@@ -20,6 +23,9 @@ import {
   TOURNAMENT_RESOURCE,
   TOURNAMENTS_RESOURCE,
   APPLICATIONS_RESOURCE,
+  SINGLES_APPLICATIONS_RESOURCE,
+  TEAM_APPLICATIONS_RESOURCE,
+  TEAMS_RESOURCE,
 } from "../lambda/common/constants";
 
 export class AwsStack extends cdk.Stack {
@@ -98,9 +104,23 @@ export class AwsStack extends cdk.Stack {
     // DynamoDB: インデックス作成
     // https://itotetsu.hatenablog.com/entry/amazon-dynamodb-via-aws-cdk
     table.addGlobalSecondaryIndex({
-      indexName: GLOBAL_INDEX_SORTKEY_EVENTDATE,
+      indexName: GSI_SORTKEY,
+      partitionKey: { name: "sortKey", type: dynamodb.AttributeType.STRING },
+    });
+    table.addGlobalSecondaryIndex({
+      indexName: GSI_SORTKEY_PARTITIONKEY,
+      partitionKey: { name: "sortKey", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "partitionKey", type: dynamodb.AttributeType.STRING },
+    });
+    table.addGlobalSecondaryIndex({
+      indexName: GSI_SORTKEY_EVENTDATE,
       partitionKey: { name: "sortKey", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "eventDate", type: dynamodb.AttributeType.STRING },
+    });
+    table.addGlobalSecondaryIndex({
+      indexName: GSI_SORTKEY_ORDER,
+      partitionKey: { name: "sortKey", type: dynamodb.AttributeType.STRING },
+      sortKey: { name: "order", type: dynamodb.AttributeType.NUMBER },
     });
 
     // Lambda実行用のIAMロールを作成（CloudWatch, DynamoDB, SES）
@@ -177,6 +197,13 @@ export class AwsStack extends cdk.Stack {
     const applicationsResource = restApi.root.addResource(
       APPLICATIONS_RESOURCE
     );
+    const singlesApplicationsResource = restApi.root.addResource(
+      SINGLES_APPLICATIONS_RESOURCE
+    );
+    const teamApplicationsResource = restApi.root.addResource(
+      TEAM_APPLICATIONS_RESOURCE
+    );
+    const teamsResource = restApi.root.addResource(TEAMS_RESOURCE);
 
     // ApiGateway: メソッド作成
     userInfoResource.addMethod(
@@ -199,8 +226,24 @@ export class AwsStack extends cdk.Stack {
       EVENET_HTTP_POST,
       new apigateway.LambdaIntegration(lambdaFunction)
     );
-    applicationsResource.addMethod(
+    singlesApplicationsResource.addMethod(
+      EVENET_HTTP_POST,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    singlesApplicationsResource.addMethod(
       EVENET_HTTP_PUT,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    teamApplicationsResource.addMethod(
+      EVENET_HTTP_POST,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    teamApplicationsResource.addMethod(
+      EVENET_HTTP_PUT,
+      new apigateway.LambdaIntegration(lambdaFunction)
+    );
+    teamsResource.addMethod(
+      EVENET_HTTP_POST,
       new apigateway.LambdaIntegration(lambdaFunction)
     );
   }

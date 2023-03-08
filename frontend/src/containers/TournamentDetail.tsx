@@ -1,18 +1,23 @@
 import Layout from "components/Layout";
 
 import { todayDate } from "common/utility";
-import { CommonContainer, CommonButton } from "common/commonMaterial";
+import {
+  CommonContainer,
+  CommonButton,
+  CommonLink,
+} from "common/commonMaterial";
 import { useTournamentDetailHook } from "hooks/tournamentDetailHook";
 
 const TournamentDetail = () => {
   // ReactHook
-  const { tournamentDetailInfo, onClickApply } = useTournamentDetailHook();
+  const { tournamentDetailInfo, onClickApply, onClickLink } =
+    useTournamentDetailHook();
 
   return (
     <>
       <Layout>
         <CommonContainer>
-          <div>{tournamentDetailInfo.title}</div>
+          <div>{tournamentDetailInfo.tournamentTitle}</div>
           <div>{tournamentDetailInfo.eventDate}</div>
           <div>{tournamentDetailInfo.place}</div>
           <div>{tournamentDetailInfo.applicationStartDate}</div>
@@ -27,6 +32,13 @@ const TournamentDetail = () => {
               応募
             </CommonButton>
           )}
+          <CommonLink
+            underline="hover"
+            onClick={onClickLink}
+            sx={{ marginTop: { xs: 1, md: 2 } }}
+          >
+            参加者情報はこちら
+          </CommonLink>
         </CommonContainer>
       </Layout>
     </>

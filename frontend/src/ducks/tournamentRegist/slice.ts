@@ -17,8 +17,8 @@ export const fetchAsyncPutTournament = createAsyncThunk(
   async (tournamentRegistInfo: TornamentRegistInfo, thunkAPI) => {
     const req = {
       body: {
-        title: tournamentRegistInfo.title,
-        class: tournamentRegistInfo.class,
+        tournamentTitle: tournamentRegistInfo.tournamentTitle,
+        tournamentClass: tournamentRegistInfo.tournamentClass,
         eventDate: tournamentRegistInfo.eventDate,
         place: tournamentRegistInfo.place,
         applicationStartDate: tournamentRegistInfo.applicationStartDate,
@@ -43,21 +43,21 @@ export const tournamentRegistSlice = createSlice({
         ...initialState,
       };
     },
-    setTitle(state: TournamentRegistState, action) {
+    setTournamentTitle(state: TournamentRegistState, action) {
       return {
         ...state,
         tournamentRegistInfo: {
           ...state.tournamentRegistInfo,
-          title: action.payload,
+          tournamentTitle: action.payload,
         },
       };
     },
-    setClass(state: TournamentRegistState, action) {
+    setTournamentClass(state: TournamentRegistState, action) {
       return {
         ...state,
         tournamentRegistInfo: {
           ...state.tournamentRegistInfo,
-          class: action.payload,
+          tournamentClass: action.payload,
         },
       };
     },
@@ -121,8 +121,8 @@ export const tournamentRegistSlice = createSlice({
 
 export const {
   initTournamentRegistState,
-  setTitle,
-  setClass,
+  setTournamentTitle,
+  setTournamentClass,
   setEventDate,
   setPlace,
   setApplicationStartDate,

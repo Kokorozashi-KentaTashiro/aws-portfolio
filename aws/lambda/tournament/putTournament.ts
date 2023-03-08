@@ -11,9 +11,9 @@ export const putTournament = async (body: any) => {
       {
         TableName: TABLE_NAME,
         Item: {
-          partitionKey: body.title,
+          partitionKey: body.tournamentTitle,
           sortKey: TOURNAMENT_SORTKEY,
-          class: body.class,
+          tournamentClass: body.tournamentClass,
           eventDate: body.eventDate,
           place: body.place,
           applicationStartDate: body.applicationStartDate,

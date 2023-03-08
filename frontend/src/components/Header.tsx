@@ -57,7 +57,7 @@ const Header: FC = () => {
             onClick={() => menuOnClick(HOME_INFO.URL)}
             sx={{ display: { xs: "none", md: "flex" } }}
           >
-            千葉県中体連卓球部
+            運営くん
           </CustomTypography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -114,7 +114,7 @@ const Header: FC = () => {
               flexGrow: 1,
             }}
           >
-            千葉県中体連卓球部
+            運営くん
           </CustomTypography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {PAGEINFOS.map(
