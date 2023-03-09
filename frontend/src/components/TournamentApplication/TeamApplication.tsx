@@ -1,25 +1,38 @@
 import { FC, ChangeEvent } from "react";
 import dayjs from "dayjs";
 
-import TextField from "@mui/material/TextField";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import Paper from "@mui/material/Paper";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Checkbox from "@mui/material/Checkbox";
-import Grid from "@mui/material/Grid";
+import {
+  TextField,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  Paper,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Checkbox,
+} from "@mui/material";
+
+import {
+  teamApplicantTableSx,
+  teamApplicantTableHeadeSx,
+  teamApplicantTableHeadeRowSx,
+  teamApplicantTableBodyRowSx,
+  teamApplicantTableBodyCellSx,
+  teamApplicantTableIncrementRowSx,
+  AddIcon,
+  DeleteIcon,
+} from "themes/TournamentApplication/teamApplicationTheme";
+
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-import { schoolYears, sexies } from "common/constants";
-
-import { CommonTableRow, CommonTableCell } from "common/commonMaterial";
+import { schoolYears } from "common/constants";
 
 import {
   setTeamLastName,
@@ -42,25 +55,25 @@ const TeamApplication: FC = () => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <CommonTableRow>
-              <CommonTableCell align="left">参加者氏名（姓）</CommonTableCell>
-              <CommonTableCell align="left">参加者氏名（名）</CommonTableCell>
-              <CommonTableCell align="left">生年月日</CommonTableCell>
-              <CommonTableCell align="left">学年</CommonTableCell>
-              <CommonTableCell align="left">主将</CommonTableCell>
-              <CommonTableCell align="left">delete</CommonTableCell>
-            </CommonTableRow>
+      <TableContainer component={Paper} sx={teamApplicantTableSx}>
+        <Table aria-label="customized table">
+          <TableHead sx={teamApplicantTableHeadeSx}>
+            <TableRow sx={teamApplicantTableHeadeRowSx}>
+              <TableCell align="center">氏名（姓）</TableCell>
+              <TableCell align="center">氏名（名）</TableCell>
+              <TableCell align="center">生年月日</TableCell>
+              <TableCell align="center">学年</TableCell>
+              <TableCell align="center">主将</TableCell>
+              <TableCell align="center">delete</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {teamApplicationsInfo.map((teamApplicationInfo, index) => (
-              <CommonTableRow key={index}>
-                <CommonTableCell align="left">
+              <TableRow key={index} sx={teamApplicantTableBodyRowSx}>
+                <TableCell align="center" sx={teamApplicantTableBodyCellSx}>
                   <TextField
                     id="application-lastName"
-                    variant="standard"
+                    variant="outlined"
                     value={teamApplicationInfo.lastName}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       dispatch(
@@ -71,11 +84,11 @@ const TeamApplication: FC = () => {
                       );
                     }}
                   />
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={teamApplicantTableBodyCellSx}>
                   <TextField
                     id="application-firstName"
-                    variant="standard"
+                    variant="outlined"
                     value={teamApplicationInfo.firstName}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       dispatch(
@@ -86,8 +99,8 @@ const TeamApplication: FC = () => {
                       );
                     }}
                   />
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={teamApplicantTableBodyCellSx}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
                       label="生年月日"
@@ -101,9 +114,9 @@ const TeamApplication: FC = () => {
                       rightArrowButtonText="次月"
                     />
                   </LocalizationProvider>
-                </CommonTableCell>
-                <CommonTableCell align="left">
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                </TableCell>
+                <TableCell align="center" sx={teamApplicantTableBodyCellSx}>
+                  <FormControl variant="outlined">
                     <InputLabel id="select"></InputLabel>
                     <Select
                       labelId="select"
@@ -125,8 +138,8 @@ const TeamApplication: FC = () => {
                       ))}
                     </Select>
                   </FormControl>
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={teamApplicantTableBodyCellSx}>
                   <Checkbox
                     checked={teamApplicationInfo.captain}
                     onChange={(e) => {
@@ -138,29 +151,26 @@ const TeamApplication: FC = () => {
                       );
                     }}
                   ></Checkbox>
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={teamApplicantTableBodyCellSx}>
                   {index >= 6 && (
-                    <Grid
-                      sx={{ cursor: "pointer" }}
+                    <DeleteIcon
+                      icon="mingcute:minus-circle-fill"
                       onClick={() => {
                         dispatch(deleteTeamApplicationInfo(index));
                       }}
-                    >
-                      －
-                    </Grid>
+                    />
                   )}
-                </CommonTableCell>
-              </CommonTableRow>
+                </TableCell>
+              </TableRow>
             ))}
             {teamApplicationsInfo.length <= 7 && (
-              <CommonTableRow
-                key="increment"
-                onClick={onClickTeamIncrement}
-                sx={{ cursor: "pointer" }}
-              >
-                ＋
-              </CommonTableRow>
+              <TableRow key="increment" sx={teamApplicantTableIncrementRowSx}>
+                <AddIcon
+                  icon="material-symbols:add-circle-rounded"
+                  onClick={onClickTeamIncrement}
+                />
+              </TableRow>
             )}
           </TableBody>
         </Table>

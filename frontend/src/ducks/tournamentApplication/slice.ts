@@ -106,6 +106,9 @@ export const tournamentApplicationSlice = createSlice({
     setTeamZone(state: TornamentApplicationState, action) {
       state.teamInfo.teamZone = action.payload;
     },
+    setTeamRank(state: TornamentApplicationState, action) {
+      state.teamInfo.teamRank = action.payload;
+    },
     setTeamSex(state: TornamentApplicationState, action) {
       state.teamInfo.teamSex = action.payload;
     },
@@ -249,6 +252,7 @@ export const {
   // チーム情報
   setTeam,
   setTeamZone,
+  setTeamRank,
   setTeamSex,
   setTeamAddress,
   setTeamPhone,

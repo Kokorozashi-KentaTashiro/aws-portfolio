@@ -8,6 +8,8 @@ import { TornamentInfo } from "ducks/tournaments/type";
 import { setTournamentDetailInfo } from "ducks/tournamentDetail/slice";
 import { selectPage, setPage } from "ducks/effect/slice";
 
+import { todayDate } from "common/utility";
+
 export const useTournamentsHook = () => {
   // 変数
   const navigate = useNavigate();
@@ -27,6 +29,14 @@ export const useTournamentsHook = () => {
     dispatch(setPage(TOURNAMNT_REGIST_INFO.URL));
   };
 
+  const applicantJudge = (tournamentInfo: TornamentInfo) => {
+    return todayDate > new Date(tournamentInfo.applicationEndDate)
+      ? true
+      : todayDate < new Date(tournamentInfo.applicationStartDate)
+      ? true
+      : false;
+  };
+
   return {
     navigate,
     dispatch,
@@ -34,5 +44,6 @@ export const useTournamentsHook = () => {
     page,
     onClickCard,
     onClickButton,
+    applicantJudge,
   };
 };

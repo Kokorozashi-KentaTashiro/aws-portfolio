@@ -26,6 +26,7 @@ export const putTeamApplications = async (body: any) => {
           // チーム情報
           team: teamInfo.team,
           teamZone: teamInfo.teamZone,
+          teamRank: teamInfo.teamRank,
           teamSex: teamInfo.teamSex,
           teamAddress: teamInfo.teamAddress,
           teamPhone: teamInfo.teamPhone,

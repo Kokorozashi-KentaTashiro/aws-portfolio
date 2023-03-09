@@ -1,24 +1,37 @@
 import { FC, ChangeEvent } from "react";
 import dayjs from "dayjs";
 
-import TextField from "@mui/material/TextField";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import Paper from "@mui/material/Paper";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Grid from "@mui/material/Grid";
+import {
+  TextField,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableCell,
+  Paper,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Grid,
+} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
-import { schoolYears } from "common/constants";
+import {
+  singlesApplicantTableSx,
+  singlesApplicantTableHeadeSx,
+  singlesApplicantTableHeadRowSx,
+  singlesApplicantTableBodyRowSx,
+  singlesApplicantTableBodyCellSx,
+  singlesApplicantTableIncrementRowSx,
+  AddIcon,
+  DeleteIcon,
+} from "themes/TournamentApplication/singlesApplicationTheme";
 
-import { CommonTableRow, CommonTableCell } from "common/commonMaterial";
+import { schoolYears } from "common/constants";
 
 import {
   setSinglesLastName,
@@ -40,24 +53,24 @@ const SinglesApplication: FC = () => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <CommonTableRow>
-              <CommonTableCell align="left">参加者氏名（姓）</CommonTableCell>
-              <CommonTableCell align="left">参加者氏名（名）</CommonTableCell>
-              <CommonTableCell align="left">生年月日</CommonTableCell>
-              <CommonTableCell align="left">学年</CommonTableCell>
-              <CommonTableCell align="left">delete</CommonTableCell>
-            </CommonTableRow>
+      <TableContainer component={Paper} sx={singlesApplicantTableSx}>
+        <Table aria-label="customized table">
+          <TableHead sx={singlesApplicantTableHeadeSx}>
+            <TableRow sx={singlesApplicantTableHeadRowSx}>
+              <TableCell align="center">参加者氏名（姓）</TableCell>
+              <TableCell align="center">参加者氏名（名）</TableCell>
+              <TableCell align="center">生年月日</TableCell>
+              <TableCell align="center">学年</TableCell>
+              <TableCell align="center">delete</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {singlesApplicationsInfo.map((singlesApplicationInfo, index) => (
-              <CommonTableRow key={index}>
-                <CommonTableCell align="left">
+              <TableRow key={index} sx={singlesApplicantTableBodyRowSx}>
+                <TableCell align="center" sx={singlesApplicantTableBodyCellSx}>
                   <TextField
                     id="application-lastName"
-                    variant="standard"
+                    variant="outlined"
                     value={singlesApplicationInfo.lastName}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       dispatch(
@@ -68,11 +81,11 @@ const SinglesApplication: FC = () => {
                       );
                     }}
                   />
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={singlesApplicantTableBodyCellSx}>
                   <TextField
                     id="application-firstName"
-                    variant="standard"
+                    variant="outlined"
                     value={singlesApplicationInfo.firstName}
                     onChange={(e: ChangeEvent<HTMLInputElement>) => {
                       dispatch(
@@ -83,8 +96,8 @@ const SinglesApplication: FC = () => {
                       );
                     }}
                   />
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={singlesApplicantTableBodyCellSx}>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DesktopDatePicker
                       label="生年月日"
@@ -98,9 +111,9 @@ const SinglesApplication: FC = () => {
                       rightArrowButtonText="次月"
                     />
                   </LocalizationProvider>
-                </CommonTableCell>
-                <CommonTableCell align="left">
-                  <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                </TableCell>
+                <TableCell align="center" sx={singlesApplicantTableBodyCellSx}>
+                  <FormControl variant="outlined">
                     <InputLabel id="select"></InputLabel>
                     <Select
                       labelId="select"
@@ -122,28 +135,25 @@ const SinglesApplication: FC = () => {
                       ))}
                     </Select>
                   </FormControl>
-                </CommonTableCell>
-                <CommonTableCell align="left">
+                </TableCell>
+                <TableCell align="center" sx={singlesApplicantTableBodyCellSx}>
                   {index >= 1 && (
-                    <Grid
-                      sx={{ cursor: "pointer" }}
+                    <DeleteIcon
+                      icon="mingcute:minus-circle-fill"
                       onClick={() => {
                         dispatch(deleteSinglesApplicationInfo(index));
                       }}
-                    >
-                      －
-                    </Grid>
+                    />
                   )}
-                </CommonTableCell>
-              </CommonTableRow>
+                </TableCell>
+              </TableRow>
             ))}
-            <CommonTableRow
-              key="increment"
-              onClick={onClickSinglesIncrement}
-              sx={{ cursor: "pointer" }}
-            >
-              ＋
-            </CommonTableRow>
+            <TableRow key="increment" sx={singlesApplicantTableIncrementRowSx}>
+              <AddIcon
+                icon="material-symbols:add-circle-rounded"
+                onClick={onClickSinglesIncrement}
+              />
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

@@ -17,6 +17,12 @@ import {
 } from "ducks/auth/slice";
 import { SignUpInfo } from "ducks/auth/type";
 import { AppDispatch } from "app/store";
+import {
+  verifyCardSx,
+  createCardSx,
+  signUpTextSx,
+  signUpButtonSx,
+} from "themes/Login/signUpTheme";
 
 const SignUp: FC = () => {
   // 変数
@@ -48,16 +54,7 @@ const SignUp: FC = () => {
     <>
       {signUpInfo.createStatus ? (
         <>
-          <Card
-            sx={{
-              display: "flex",
-              flexFlow: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: { xs: 300, md: 400 },
-              height: { xs: 150, md: 200 },
-            }}
-          >
+          <Card sx={verifyCardSx}>
             <TextField
               id="user-verify-code"
               label="認証番号"
@@ -66,35 +63,20 @@ const SignUp: FC = () => {
               onChange={(e) => {
                 dispatch(setSignUpVerifyCode(e.target.value));
               }}
-              sx={{
-                margin: 1,
-              }}
+              sx={signUpTextSx}
             />
           </Card>
           <CommonButton
             variant="contained"
             onClick={onVerify}
-            sx={{
-              marginTop: 2,
-              width: { xs: 100, md: 120 },
-              height: { xs: 40, md: 50 },
-            }}
+            sx={signUpButtonSx}
           >
             Verify
           </CommonButton>
         </>
       ) : (
         <>
-          <Card
-            sx={{
-              display: "flex",
-              flexFlow: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: { xs: 300, md: 400 },
-              height: { xs: 350, md: 400 },
-            }}
-          >
+          <Card sx={createCardSx}>
             <TextField
               id="user-familiy-name"
               label="姓"
@@ -103,9 +85,7 @@ const SignUp: FC = () => {
               onChange={(e) => {
                 dispatch(setSignUpFamiliyName(e.target.value));
               }}
-              sx={{
-                margin: 1,
-              }}
+              sx={signUpTextSx}
             />
             <TextField
               id="user-given-name"
@@ -115,9 +95,7 @@ const SignUp: FC = () => {
               onChange={(e) => {
                 dispatch(setSignUpGivenName(e.target.value));
               }}
-              sx={{
-                margin: 1,
-              }}
+              sx={signUpTextSx}
             />
             <TextField
               id="user-email"
@@ -127,9 +105,7 @@ const SignUp: FC = () => {
               onChange={(e) => {
                 dispatch(setSignUpEmail(e.target.value));
               }}
-              sx={{
-                margin: 1,
-              }}
+              sx={signUpTextSx}
             />
             <TextField
               id="user-phone"
@@ -139,9 +115,7 @@ const SignUp: FC = () => {
               onChange={(e) => {
                 dispatch(setSignUpPhone(e.target.value));
               }}
-              sx={{
-                margin: 1,
-              }}
+              sx={signUpTextSx}
             />
             <TextField
               id="user-password"
@@ -153,19 +127,13 @@ const SignUp: FC = () => {
               onChange={(e) => {
                 dispatch(setSignUpPassword(e.target.value));
               }}
-              sx={{
-                margin: 1,
-              }}
+              sx={signUpTextSx}
             />
           </Card>
           <CommonButton
             variant="contained"
             onClick={onSignUp}
-            sx={{
-              marginTop: 2,
-              width: { xs: 100, md: 120 },
-              height: { xs: 40, md: 50 },
-            }}
+            sx={signUpButtonSx}
           >
             Sign Up
           </CommonButton>

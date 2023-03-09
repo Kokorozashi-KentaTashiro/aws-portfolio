@@ -10,6 +10,7 @@ import {
 export const initialTeamInfo: TeamInfo = {
   team: 0,
   teamZone: 0,
+  teamRank: 0,
   teamSex: 0,
   teamAddress: "",
   teamPhone: "",

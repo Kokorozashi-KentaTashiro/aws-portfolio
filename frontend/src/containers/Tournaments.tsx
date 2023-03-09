@@ -1,26 +1,43 @@
 import { FC, useEffect } from "react";
-import { Card, CardContent } from "@mui/material";
+import { Typography, Box, Card, CardMedia, CardContent } from "@mui/material";
 import Layout from "components/Layout";
-import styled from "@emotion/styled";
 
-import { todayDate } from "common/utility";
-import { CommonContainer, CommonButton } from "common/commonMaterial";
+import { CommonContainer } from "common/commonMaterial";
 import { fetchAsyncGetTournaments } from "ducks/tournaments/slice";
 import { useTournamentsHook } from "hooks/tournamentsHook";
 
-import { tournamentClasses } from "common/constants";
-
-export const TournamntCard = styled(Card)`
-  width: 100%;
-  min-height: 200px;
-  margin: 10px 10%;
-  cursor: pointer;
-`;
+import {
+  RegistButton,
+  registButtonSx,
+  tournamentsCardSx,
+  tournamentsCardMediaSx,
+  tournamentsCardContentSx,
+  viewAreaSx,
+  eventDateCardSx,
+  eventDateCardMediaSx,
+  placeCardSx,
+  placeCardMediaSx,
+  applicationEndCardSx,
+  applicationEndCardMediaSx,
+  buttonAreaSx,
+  DetailViewButton,
+  detailViewButtonSx,
+  ApplicantButton,
+  applicantButtonSx,
+  applicantNormalFontSx,
+  applicantSpecialFontSx,
+} from "themes/tournamentsTheme";
 
 const Tournaments: FC = () => {
   // ReactHook
-  const { dispatch, tournamentsInfo, page, onClickCard, onClickButton } =
-    useTournamentsHook();
+  const {
+    dispatch,
+    tournamentsInfo,
+    page,
+    onClickCard,
+    onClickButton,
+    applicantJudge,
+  } = useTournamentsHook();
 
   // useEffect
   useEffect(() => {
@@ -33,32 +50,64 @@ const Tournaments: FC = () => {
     <>
       <Layout>
         <CommonContainer>
+          <RegistButton
+            variant="contained"
+            onClick={() => onClickButton()}
+            sx={registButtonSx}
+          >
+            新規登録
+          </RegistButton>
           {tournamentsInfo.map((tournamentInfo) => {
             return (
-              <TournamntCard variant="outlined">
-                <CardContent onClick={() => onClickCard(tournamentInfo)}>
-                  <p>タイトル：{tournamentInfo.tournamentTitle}</p>
-                  <p>
-                    大会区分：
-                    {tournamentClasses[tournamentInfo.tournamentClass].label}
-                  </p>
-                  <p>開催日：{tournamentInfo.eventDate}</p>
-                  <p>開催場所：{tournamentInfo.place}</p>
-                  {todayDate > new Date(tournamentInfo.applicationEndDate) ? (
-                    <p>受付終了</p>
-                  ) : todayDate <
-                    new Date(tournamentInfo.applicationStartDate) ? (
-                    <p>受付開始待ち</p>
-                  ) : (
-                    <p>受付中</p>
-                  )}
+              <Card variant="outlined" sx={tournamentsCardSx}>
+                <CardMedia sx={tournamentsCardMediaSx}>
+                  {tournamentInfo.tournamentTitle}
+                </CardMedia>
+                <CardContent sx={tournamentsCardContentSx}>
+                  <Box sx={viewAreaSx}>
+                    <Card sx={eventDateCardSx}>
+                      <CardMedia sx={eventDateCardMediaSx}>開催日</CardMedia>
+                      <CardContent>{tournamentInfo.eventDate}</CardContent>
+                    </Card>
+                    <Card sx={placeCardSx}>
+                      <CardMedia sx={placeCardMediaSx}>会場</CardMedia>
+                      <CardContent>{tournamentInfo.place}</CardContent>
+                    </Card>
+                    <Card sx={applicationEndCardSx}>
+                      <CardMedia sx={applicationEndCardMediaSx}>
+                        申込期限
+                      </CardMedia>
+                      <CardContent>
+                        {tournamentInfo.applicationEndDate}
+                      </CardContent>
+                    </Card>
+                  </Box>
+                  <Box sx={buttonAreaSx}>
+                    <DetailViewButton
+                      variant="contained"
+                      onClick={() => onClickCard(tournamentInfo)}
+                      sx={detailViewButtonSx}
+                    >
+                      要項をみる
+                    </DetailViewButton>
+                    <ApplicantButton
+                      variant="contained"
+                      disabled={applicantJudge(tournamentInfo)}
+                      onClick={() => onClickCard(tournamentInfo)}
+                      sx={applicantButtonSx}
+                    >
+                      <Typography sx={applicantNormalFontSx}>
+                        この大会へ
+                      </Typography>
+                      <Typography sx={applicantSpecialFontSx}>
+                        申し込む
+                      </Typography>
+                    </ApplicantButton>
+                  </Box>
                 </CardContent>
-              </TournamntCard>
+              </Card>
             );
           })}
-          <CommonButton variant="contained" onClick={() => onClickButton()}>
-            登録
-          </CommonButton>
         </CommonContainer>
       </Layout>
     </>

@@ -8,14 +8,7 @@ import { Link } from "@mui/material";
 
 import emotionStyled from "@emotion/styled";
 
-export const CommonLink = emotionStyled(Link)`
-    cursor: pointer;
-`;
-export const CommonButton = emotionStyled(Button)`
-    text-transform: none;
-    background-color: var(--primary-color);
-`;
-
+// システム共通の部品を定義
 export const CommonContainer = emotionStyled(Container)`
     display: flex;
     flex-flow: column;
@@ -31,18 +24,10 @@ export const CommonBox = emotionStyled(Box)`
     margin: 10%;
 `;
 
-export const CommonTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-  },
-}));
-
-export const CommonTableRow = styled(TableRow)(({ theme }) => ({
-  "&:last-child td, &:last-child th": {
-    border: 0,
-  },
-}));
+export const CommonLink = emotionStyled(Link)`
+    cursor: pointer;
+`;
+export const CommonButton = emotionStyled(Button)`
+    text-transform: none;
+    background-color: var(--primary-color);
+`;

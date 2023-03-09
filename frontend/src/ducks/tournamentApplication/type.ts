@@ -11,6 +11,7 @@ export type TornamentApplicationState = {
 export type TeamInfo = {
   team: number;
   teamZone: number;
+  teamRank: number;
   teamSex: number;
   teamAddress: string;
   teamPhone: string;
